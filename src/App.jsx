@@ -8,6 +8,7 @@ import NewBaseStory from "./page/NewBaseStory.jsx";
 import NewStory from "./page/NewStory.jsx";
 import NewStoryComplete from "./page/NewStoryComplete.jsx";
 import StoryDetail from "./page/StoryDetail.jsx";
+import Layout from "./layout/Layout.jsx";
 
 function App() {
     const router = createBrowserRouter([
@@ -39,16 +40,20 @@ function App() {
             path: "/stories/:storyId/new/complete",
             element: <NewStoryComplete />
         },
+        // {
+        //     path: "/stories/:storyId/pages/:pageNumber",
+        //     element: <StoryDetail />
+        // }
         {
-            path: "/stories/:storyId/pages/1",
+            path: "/stories/:storyId",
             element: <StoryDetail />
         }
     ]);
 
     return (
-        <>
+        <Layout>
             <RouterProvider router={router} />
-        </>
+        </Layout>
     )
 }
 
