@@ -26,12 +26,6 @@ const NewStoryComplete = () => {
             })
     }
 
-    // 로그 확인용 effect
-    useEffect(() => {
-        console.log(isPublic);
-    }, [isPublic]);
-
-
     return (
         <>
             <h1>동화책 만들기를 마무리 해주세요.</h1>
