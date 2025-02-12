@@ -1,23 +1,19 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import useStoryStore from "../store/useStoryStore.js";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import jwtAxios from "../common/JwtAxios.js";
+import { Button, Container, Row, Col, Card } from "react-bootstrap";
 
 const NewStory = () => {
-    const {storyId} = useParams();
+    const { storyId } = useParams();
     const [pageNumber, setPageNumber] = useState(1);
     const navigate = useNavigate();
-    const {exStory, setExStory} = useStoryStore();
+    const { exStory, setExStory } = useStoryStore();
     const [contentOption1, setContentOption1] = useState("");
     const [contentOption2, setContentOption2] = useState("");
     const [contentOption3, setContentOption3] = useState("");
     const [selectedContent, setSelectedContent] = useState("");
     const [loading, setLoading] = useState(false);
-    // useEffect(() => {
-    //     restoreState(); // 새로고침 시 기존 상태 복구
-    //     setStoryId(storyId);
-    //     setPageNumber(Number(pageNumber));
-    // }, [storyId, pageNumber, restoreState, setStoryId, setPageNumber]);
 
     useEffect(() => {
         if (exStory) {
@@ -29,7 +25,7 @@ const NewStory = () => {
                     const data = {
                         source: exStory,
                         pageNumber: pageNumber,
-                    }
+                    };
                     const response = await jwtAxios.post("http://localhost:8000/api/story/generate", data);
                     // 문장후보 생성 성공 시 출력
                     if (response) {
@@ -63,53 +59,67 @@ const NewStory = () => {
                         setExStory(selectedContent);
                         console.log("지난 이야기: " + exStory);
                         setPageNumber(nextPage);
-
                     } else {
                         navigate(`/stories/${storyId}/new/complete`);
                     }
-
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
-    }
+            });
+    };
 
     const selectContentOption = (selectedContent) => {
         setSelectedContent(selectedContent);
         console.log("selectedContent: " + selectedContent);
-    }
+    };
 
     return (
-        <>
-            <h1>{pageNumber} 페이지</h1>
-            <div>
-                <h3>이전 내용</h3>
-                <p>{exStory}</p>
-            </div>
-            {loading ? (<p>문장 생성중...</p>) :
-                (
-                    <div className={"content-container"}>
-                        <h3>다음 내용을 선택해주세요.</h3>
-                        <div>
-                            <div onClick={() => selectContentOption(contentOption1)}>
-                                <span>{contentOption1}</span>
-                            </div>
-                            <div onClick={() => selectContentOption(contentOption2)}>
-                                <span>{contentOption2}</span>
-                            </div>
-                            <div onClick={() => selectContentOption(contentOption3)}>
-                                <span>{contentOption3}</span>
+        <Container className="my-5">
+            <Row className="justify-content-center">
+                <Col md={8} lg={6}>
+                    <h1 className="text-center mb-4">{pageNumber} 페이지</h1>
+                    <div className="mb-4">
+                        <h3>이전 내용</h3>
+                        <p className="border p-3 rounded-3 bg-light">{exStory}</p>
+                    </div>
+
+                    {loading ? (
+                        <div className="text-center">
+                            <p>문장 생성중...</p>
+                        </div>
+                    ) : (
+                        <div className="content-container mb-4">
+                            <h3>다음 내용을 선택해주세요.</h3>
+                            <div className="d-flex flex-column align-items-start">
+                                <Card className="mb-3" style={{ cursor: 'pointer' }} onClick={() => selectContentOption(contentOption1)}>
+                                    <Card.Body>
+                                        <Card.Text>{contentOption1}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                                <Card className="mb-3" style={{ cursor: 'pointer' }} onClick={() => selectContentOption(contentOption2)}>
+                                    <Card.Body>
+                                        <Card.Text>{contentOption2}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                                <Card style={{ cursor: 'pointer' }} onClick={() => selectContentOption(contentOption3)}>
+                                    <Card.Body>
+                                        <Card.Text>{contentOption3}</Card.Text>
+                                    </Card.Body>
+                                </Card>
                             </div>
                         </div>
+                    )}
+
+                    <div className="text-center">
+                        <Button onClick={goToNextPage} variant="primary" size="lg" className="px-4 py-2 rounded-3">
+                            다음 페이지
+                        </Button>
                     </div>
-                )
-            }
-
-
-            <button onClick={() => goToNextPage()}>다음 페이지</button>
-        </>
+                </Col>
+            </Row>
+        </Container>
     );
+};
 
-}
 export default NewStory;

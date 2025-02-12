@@ -1,6 +1,7 @@
-import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import {Card, Container, Row, Col, Image, Button} from "react-bootstrap";
 
 function Index() {
     const [storyList, setStoryList] = useState([]);
@@ -10,16 +11,7 @@ function Index() {
         axios.get("http://localhost:8080/api/stories")
             .then((response) => {
                 console.log(response.data.data);
-                const responseData = response.data.data;
-                const storyList = responseData.content.map((story, index) => {
-                    return (
-                        <div key={index} onClick={() => goToStoryDetail(story.storyId)}>
-                            <span>{story.title}</span>
-                            <span>{story.memberName}</span>
-                        </div>
-                    )
-                });
-                setStoryList(storyList);
+                setStoryList(response.data.data.content);
             })
             .catch(error => {
                 console.log(error);
@@ -27,20 +19,29 @@ function Index() {
     }, []);
 
     const goToStoryDetail = (storyId) => {
-        navigate(`/stories/${storyId}/pages/0`);
+        navigate(`/stories/${storyId}`);
     }
 
-    //TODO: 멤버 이름 누르면 멤버가 작성한 동화 목록 나오게
-
     return (
-        <>
-            <h1>메인 페이지입니다.</h1>
-            <Link to="/login">로그인</Link>
-            <Link to={"/story/new"}>동화 만들기</Link>
-            <div className={"story-container"}>
-                {storyList}
-            </div>
-        </>
+        <Container>
+            <Button as={Link} to={"/story/new"}>동화 만들기</Button>
+
+            <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+                {storyList.map((story) => (
+                    <Col key={story.storyId}>
+                        <Card onClick={() => goToStoryDetail(story.storyId)} className="h-100">
+                            {/*<Card.Img>*/}
+                            {/*    <Image src={"#"}></Image>*/}
+                            {/*</Card.Img>*/}
+                            <Card.Body>
+                                <Card.Title>{story.title}</Card.Title>
+                                <Card.Text>{story.memberName}</Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </Container>
     );
 }
 
