@@ -1,9 +1,28 @@
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react'
+import jwtAxios from "../common/JwtAxios.js";
+import useLoginStore from "../store/useLoginStore.js";
 
 const LoginLoading = () => {
     const navigate = useNavigate();
+    const {setLogin} = useLoginStore();
+
+    const processLogin = async (token) => {
+        localStorage.setItem('access-token', token);
+
+        const response = await jwtAxios.get("http://localhost:8080/api/me");
+        const responseData = response.data;
+        try {
+            if (responseData.success) {
+                setLogin(responseData.data.memberId, responseData.data.memberName);
+            } else {
+                console.log(responseData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -18,11 +37,10 @@ const LoginLoading = () => {
                         alert('최초가입이 필요합니다.');
                         console.log(responseData);
                         navigate('/signup', {state: {oauthProvider: responseData.data}});
-                    }
-                    else if (responseData.code === 'OK') {
+                    } else if (responseData.code === 'OK') {
                         console.log(responseData);
                         const token = responseData.data;
-                        localStorage.setItem('access-token', token);
+                        processLogin(token);
                         navigate('/');
                     }
                 } else {
@@ -40,5 +58,6 @@ const LoginLoading = () => {
         </>
     )
 }
+
 
 export {LoginLoading}
