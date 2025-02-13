@@ -35,26 +35,29 @@ const MyStoryList = () => {
 
 
     return (
-      <Container>
-          <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-              {myStoryList.map((story) => (
-                  <Col key={story.storyId}>
-                      <Card onClick={() => goToStoryDetail(story.storyId)}
-                            className="h-100"
-                            style={{cursor: 'pointer'}}>
-                          {/*<Card.Img>*/}
-                          {/*    <Image src={"#"}></Image>*/}
-                          {/*</Card.Img>*/}
-                          <Card.Body>
-                              <Card.Title>{story.title}</Card.Title>
-                          </Card.Body>
-                      </Card>
-                  </Col>
-              ))}
-          </Row>
-
-      </Container>
+        <Container>
+            <Row className="g-4">
+                {myStoryList === null || myStoryList.length === 0 ? (
+                    <p>아직 동화가 없습니다.</p>
+                ) : (
+                    myStoryList.map((story) => (
+                        <Col key={story.storyId}>
+                            <Card
+                                onClick={() => goToStoryDetail(story.storyId)}
+                                className="h-100"
+                                style={{ cursor: "pointer" }}
+                            >
+                                <Card.Body>
+                                    <Card.Title>{story.title}</Card.Title>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))
+                )}
+            </Row>
+        </Container>
     );
+
 
 }
 

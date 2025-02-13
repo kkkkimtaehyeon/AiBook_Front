@@ -50,7 +50,7 @@ const Header = () => {
                         {isLogin ? (
                             <>
                                 <NavDropdown title={<span style={{ color: "black" }}>{memberName}</span>} id="nav-dropdown" align="end">
-                                <NavDropdown.Item as={Link} to="/my">
+                                <NavDropdown.Item as={Link} to="/my/info">
                                         마이페이지
                                     </NavDropdown.Item>
                                     <NavDropdown.Item onClick={logout}>

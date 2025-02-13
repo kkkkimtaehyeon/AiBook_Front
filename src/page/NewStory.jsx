@@ -87,35 +87,39 @@ const NewStory = () => {
                     {loading ? (
                         <div className="text-center">
                             <Button className={"bg-light-subtle text-black"} disabled>
-                                <span className="spinner-grow spinner-grow-sm text-primary" role="status" aria-hidden="true"></span>
+                                <span className="spinner-grow spinner-grow-sm text-primary" role="status"
+                                      aria-hidden="true"></span>
                                 이야기가 생성 중입니다...
                             </Button>
                         </div>
                     ) : (
-                        <div className="content-container mb-4">
+                        <>
                             <h3>다음 내용을 선택해주세요.</h3>
-                            <div className="d-flex flex-column align-items-start">
-                                <Card className="mb-3" style={{cursor: 'pointer'}}
-                                      onClick={() => selectContentOption(contentOption1)}>
-                                    <Card.Body>
-                                        <Card.Text>{contentOption1}</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                                <Card className="mb-3" style={{cursor: 'pointer'}}
-                                      onClick={() => selectContentOption(contentOption2)}>
-                                    <Card.Body>
-                                        <Card.Text>{contentOption2}</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                                <Card style={{cursor: 'pointer'}} onClick={() => selectContentOption(contentOption3)}>
-                                    <Card.Body>
-                                        <Card.Text>{contentOption3}</Card.Text>
-                                    </Card.Body>
-                                </Card>
+                            <div className="content-container">
+                                <div className="d-flex flex-column align-items-start">
+                                    <Card className="mb-3" style={{cursor: 'pointer'}}
+                                          onClick={() => selectContentOption(contentOption1)}>
+                                        <Card.Body>
+                                            <Card.Text>{contentOption1}</Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                    <Card className="mb-3" style={{cursor: 'pointer'}}
+                                          onClick={() => selectContentOption(contentOption2)}>
+                                        <Card.Body>
+                                            <Card.Text>{contentOption2}</Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                    <Card style={{cursor: 'pointer'}}
+                                          onClick={() => selectContentOption(contentOption3)}>
+                                        <Card.Body>
+                                            <Card.Text>{contentOption3}</Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
                             </div>
-                        </div>
-                    )}
-
+                        </>
+                    )
+                    }
                     <div className="text-center">
                         <Button onClick={goToNextPage} variant="primary" size="lg" className="px-4 py-2 rounded-3">
                             다음 페이지
@@ -124,7 +128,8 @@ const NewStory = () => {
                 </Col>
             </Row>
         </Container>
-    );
+    )
+        ;
 };
 
 export default NewStory;
