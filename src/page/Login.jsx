@@ -1,3 +1,5 @@
+import {Card, CardBody, Image} from "react-bootstrap";
+
 const Login = () => {
 
     const goToKakaLoginPage = () => {
@@ -13,7 +15,23 @@ const Login = () => {
     }
 
     return (
-        <button onClick={goToKakaLoginPage}>카카오로 로그인</button>
+        <>
+            <Card>
+                <Image
+                    src={"/src/assets/aibook_logo.png"}
+                    style={{ width: "100px", height: "auto", margin: "0 auto", display: "block" }}>
+                </Image>
+                <h2>아이북에 로그인하기</h2>
+                <CardBody>
+                    <Image
+                        onClick={goToKakaLoginPage}
+                        src={"/src/assets/kakao_login_medium_wide.png"}
+                        alt="카카오 로그인"
+                        style={{cursor: "pointer"}}
+                    />
+                </CardBody>
+            </Card>
+        </>
     );
 }
 

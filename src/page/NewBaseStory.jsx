@@ -45,11 +45,11 @@ const NewBaseStory = () => {
         <Container className="my-5">
             <Row className="justify-content-center">
                 <Col md={8} lg={6}>
-                    <h1 className="text-center mb-4">나의 이야기</h1>
+                    <h3 className="text-center mb-4">시작 전, 나의 이야기를 작성해주세요!</h3>
                     <div>
             <textarea
                 ref={baseStoryInputRef}
-                placeholder="동화로 만들고 싶은 나의 이야기를 작성해주세요."
+                placeholder="ex) 오늘은 엄마, 아빠와 함께 동물원에 갔어요. 날씨가 좋아서..."
                 rows={8}
                 className="form-control mb-3"
                 style={{
@@ -63,7 +63,7 @@ const NewBaseStory = () => {
                     </div>
                     <div className="text-center">
                         <Button onClick={saveBaseStory} variant="primary" size="lg" className="px-4 py-2 rounded-3">
-                            다음 단계
+                            동화 만들기
                         </Button>
                     </div>
                 </Col>

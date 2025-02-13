@@ -17,9 +17,11 @@ const LoginLoading = () => {
             if (responseData.success) {
                 setLogin(responseData.data.memberId, responseData.data.memberName);
             } else {
+                alert("로그인 중 오류 발생");
                 console.log(responseData);
             }
         } catch (error) {
+            alert("로그인 중 오류 발생");
             console.log(error);
         }
     }
@@ -35,10 +37,8 @@ const LoginLoading = () => {
                 if (responseData.success) {
                     if (responseData.code === 'FORBIDDEN') {
                         alert('최초가입이 필요합니다.');
-                        console.log(responseData);
                         navigate('/signup', {state: {oauthProvider: responseData.data}});
                     } else if (responseData.code === 'OK') {
-                        console.log(responseData);
                         const token = responseData.data;
                         processLogin(token);
                         navigate('/');

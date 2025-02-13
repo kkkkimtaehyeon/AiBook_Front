@@ -1,6 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import jwtAxios from "../common/JwtAxios.js";
+import {Button} from "react-bootstrap";
 
 const NewStoryComplete = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const NewStoryComplete = () => {
 
     return (
         <>
-            <h1>동화책 만들기를 마무리 해주세요.</h1>
+            <h1>마지막으로 동화책의 제목을 지어주세요!</h1>
             <div>
                 <label>제목</label>
                 <input
@@ -46,7 +47,7 @@ const NewStoryComplete = () => {
                 }
                 />
             </div>
-            <button onClick={() => completeMakingStory() }>저장</button>
+            <Button onClick={() => completeMakingStory() }>저장</Button>
         </>
     )
 }
