@@ -23,7 +23,7 @@ const Header = () => {
             if (response.data.success) {
                 localStorage.removeItem("access-token");
                 setLogout();
-                window.location.href("/");
+                window.location.assign("/");
             }
         } catch (error) {
             console.log(error);
