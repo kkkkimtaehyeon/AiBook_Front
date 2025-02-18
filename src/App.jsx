@@ -14,6 +14,7 @@ import "./css/root.css"
 import MyPage from "./page/MyPage.jsx";
 import MemberInfo from "./page/MemberInfo.jsx";
 import MyStoryList from "./page/MyStoryList.jsx";
+import StoryDubbing from "./page/StoryDubbing.jsx";
 
 function App() {
     useLoginStore();
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/stories/:storyId/pages/:pageNumber/new" element={<NewStory/>}/>
                     <Route path="/stories/:storyId/new/complete" element={<NewStoryComplete/>}/>
                     <Route path="/stories/:storyId" element={<StoryDetail/>}/>
+                    <Route path="/stories/:storyId/dubbing" element={<StoryDubbing />}/>
                     <Route path="/my" element={<MyPage/>}>
                         <Route path="info" element={<MemberInfo/>}/>
                         <Route path="story/list" element={<MyStoryList/>}/>
