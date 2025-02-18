@@ -30,8 +30,6 @@ const Header = () => {
         }
     }
 
-
-
     return (
         <>
             <Navbar bg="light" variant="dark" expand="md" className="px-3 header">

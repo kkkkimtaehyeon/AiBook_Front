@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import jwtAxios from "../common/JwtAxios.js";
 import {useNavigate} from "react-router-dom";
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Card, CardBody, CardTitle, Col, Container, Row} from "react-bootstrap";
 import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
 
 const MyStoryList = () => {
@@ -15,8 +15,7 @@ const MyStoryList = () => {
                 const responseData = response.data;
                 if (responseData.success) {
                     setMyStoryList(response.data.data.content);
-                }
-                else {
+                } else {
                 }
 
             })
@@ -27,6 +26,21 @@ const MyStoryList = () => {
                     navigate("/login");
                 }
             });
+    }
+
+    const deleteStory = async (storyId) => {
+        try {
+            const response = await jwtAxios.delete(`http://localhost:8080/api/stories/${storyId}`);
+            if (response.data.success) {
+                if (response.data.data.code === "NO_CONTENT") {
+                    window.location.reload();
+                }
+            } else {
+                alert("동화 삭제가 실패했습니다.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -42,15 +56,12 @@ const MyStoryList = () => {
                 ) : (
                     myStoryList.map((story) => (
                         <Col key={story.storyId}>
-                            <Card
-                                onClick={() => goToStoryDetail(story.storyId)}
-                                className="h-100"
-                                style={{ cursor: "pointer" }}
-                            >
-                                <Card.Body>
-                                    <Card.Title>{story.title}</Card.Title>
-                                </Card.Body>
+                            <Card style={{cursor: "pointer"}}>
+                                <CardBody onClick={() => goToStoryDetail(story.storyId)}>
+                                    <CardTitle>{story.title}</CardTitle>
+                                </CardBody>
                             </Card>
+
                         </Col>
                     ))
                 )}
