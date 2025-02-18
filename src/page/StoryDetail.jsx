@@ -2,7 +2,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Button, Card, Container} from "react-bootstrap";
-import {Heart, HeartFill} from 'react-bootstrap-icons';
+import {Eye, EyeFill, Heart, HeartFill} from 'react-bootstrap-icons';
 import jwtAxios from "../common/JwtAxios.js";
 
 const StoryDetail = () => {
@@ -61,6 +61,7 @@ const StoryDetail = () => {
     return (
         <Container>
             <Button as={Link} to={"/"}>목록보기</Button>
+            <Eye size={20}></Eye>{storyDetail.viewCount}
             <Button onClick={likeStory} variant="light">
                 {isLiked ? <HeartFill color="red" size={20} /> : <Heart size={20} />}
             </Button>
