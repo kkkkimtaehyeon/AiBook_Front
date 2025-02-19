@@ -1,7 +1,7 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Button, Card, Container, Row} from "react-bootstrap";
-import {Eye, Heart, HeartFill} from 'react-bootstrap-icons';
+import {Eye, Heart, HeartFill, Pause, Play, Stop} from 'react-bootstrap-icons';
 import jwtAxios from "../common/JwtAxios.js";
 import useLoginStore from "../store/useLoginStore.js";
 
@@ -12,6 +12,8 @@ const StoryDetail = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const {isLogin, memberId} = useLoginStore();
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [audio, setAudio] = useState(null);
 
     useEffect(() => {
         jwtAxios.get(`http://localhost:8080/api/stories/${storyId}`)
@@ -23,7 +25,7 @@ const StoryDetail = () => {
                 }
             })
             .catch(error => console.log(error));
-    }, [storyId]); // pageNumber 제거, storyId로 변경
+    }, [storyId]);
 
     const goToNextPage = () => {
         if (pageNumber < 10) {
@@ -38,18 +40,18 @@ const StoryDetail = () => {
     }
 
     const likeStory = () => {
-        const newIsLiked = !isLiked; // 현재 상태와 반대로 설정
-        setIsLiked(newIsLiked); // UI 상태 먼저 업데이트
+        const newIsLiked = !isLiked;
+        setIsLiked(newIsLiked);
 
         jwtAxios.post(`http://localhost:8080/api/stories/${storyId}/like`)
             .then((response) => {
                 if (!response.data.success) {
-                    setIsLiked(isLiked); // 실패하면 원래 상태로 복원
+                    setIsLiked(isLiked);
                     alert("좋아요가 실패했습니다.");
                 }
             })
             .catch(error => {
-                setIsLiked(isLiked); // 실패하면 원래 상태로 복원
+                setIsLiked(isLiked);
                 if (error.response?.status === 401 || error.response?.status === 403) {
                     alert("로그인이 필요한 서비스입니다.");
                     navigate("/login");
@@ -57,6 +59,35 @@ const StoryDetail = () => {
                     alert("좋아요가 실패했습니다.");
                 }
             });
+    }
+
+    const playDubbingAudio = (dubbingAudioUrl) => {
+        setIsPlaying(true);
+        const newAudio = new Audio(dubbingAudioUrl);
+        setAudio(newAudio);
+        newAudio.play();
+        newAudio.onended = () => setIsPlaying(false);
+    }
+
+    const stopDubbingAudio = () => {
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            setIsPlaying(false);
+        }
+    }
+
+    const deleteStory = () => {
+        jwtAxios.delete(`http://localhost:8080/api/stories/${storyId}`)
+            .then(response => {
+                if (response.data.success) {
+                    alert("동화가 성공적으로 삭제되었습니다.");
+                    navigate("/");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -68,7 +99,7 @@ const StoryDetail = () => {
                         <div className="d-inline-block mx-2">
                             <Button as={Link} to={"/"}>수정</Button>
                             <Button as={Link} to={`/stories/${storyId}/dubbing`}>더빙 추가</Button>
-                            <Button as={Link} to={"/"}>삭제</Button>
+                            <Button onClick={deleteStory}>삭제</Button>
                         </div> : null
                     }
 
@@ -91,6 +122,17 @@ const StoryDetail = () => {
                             <>
                                 <Card style={{width: "100%", height: "500px"}}>
                                     <p>{currentPage.content || "페이지를 찾을 수 없습니다."}</p>
+                                    {currentPage.dubbingAudioUrl && (
+                                        <div>
+                                            {isPlaying ?
+                                                <Pause onClick={stopDubbingAudio}/>
+                                                :
+                                                <Play onClick={() => {
+                                                    playDubbingAudio(currentPage.dubbingAudioUrl)
+                                                }}/>
+                                            }
+                                        </div>
+                                    )}
                                 </Card>
                                 <p>{currentPage.pageNumber || 0}/10</p>
                             </>
@@ -103,7 +145,6 @@ const StoryDetail = () => {
                     {pageNumber > 0 && <Button onClick={goBackToPage}>이전</Button>}
                     {pageNumber < 10 && <Button onClick={goToNextPage}>다음</Button>}
                 </div>
-
             </Row>
         </Container>
     );

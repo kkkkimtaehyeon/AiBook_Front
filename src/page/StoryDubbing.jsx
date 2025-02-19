@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Button, Card, Container, Row} from "react-bootstrap";
 import jwtAxios from "../common/JwtAxios.js";
@@ -10,22 +10,25 @@ const StoryDubbing = () => {
     const [storyDetail, setStoryDetail] = useState({});
     const [pageNumber, setPageNumber] = useState(0);
     const {recordings, clearRecordings} = useRecordStore(); // 녹음 데이터 가져오기
+    const navigate = useNavigate();
 
     const uploadDubbing = () => {
         const formData = new FormData();
 
-        // 🔥 recordings 객체 안에 있는 Blob들을 각각 추가
+        // recordings 객체 안에 있는 Blob들을 각각 추가
         Object.entries(recordings).forEach(([pageNumber, blob]) => {
             formData.append("files", blob, `story-${storyId}-page-${pageNumber}.wav`);
         });
 
         jwtAxios.post(`http://localhost:8080/api/stories/${storyId}/dubbing`,
             formData,
-            { headers: { "Content-Type": "multipart/form-data" } }
+            {headers: {"Content-Type": "multipart/form-data"}}
         )
             .then((response) => {
+                alert("더빙이 성공적으로 업로드 되었습니다!");
                 console.log(response);
                 clearRecordings(); // 업로드 후 데이터 초기화
+                navigate(`/stories/${storyId}`);
             })
             .catch(error => {
                 console.log(error);
