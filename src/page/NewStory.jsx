@@ -69,9 +69,9 @@ const NewStory = () => {
             });
     };
 
-    const selectContentOption = (selectedContent) => {
-        setSelectedContent(selectedContent);
-        console.log("selectedContent: " + selectedContent);
+    const selectContentOption = (option) => {
+        setSelectedContent(option);
+        console.log("selectedContent: " + option);
     };
 
     return (
@@ -89,7 +89,7 @@ const NewStory = () => {
                             <Button className={"bg-light-subtle text-black"} disabled>
                                 <span className="spinner-grow spinner-grow-sm text-primary" role="status"
                                       aria-hidden="true"></span>
-                                이야기가 생성 중입니다...
+                                이야기를 생성 중입니다...
                             </Button>
                         </div>
                     ) : (
@@ -97,29 +97,20 @@ const NewStory = () => {
                             <h3>다음 내용을 선택해주세요.</h3>
                             <div className="content-container">
                                 <div className="d-flex flex-column align-items-start">
-                                    <Card className="mb-3" style={{cursor: 'pointer'}}
-                                          onClick={() => selectContentOption(contentOption1)}>
-                                        <Card.Body>
-                                            <Card.Text>{contentOption1}</Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    <Card className="mb-3" style={{cursor: 'pointer'}}
-                                          onClick={() => selectContentOption(contentOption2)}>
-                                        <Card.Body>
-                                            <Card.Text>{contentOption2}</Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    <Card style={{cursor: 'pointer'}}
-                                          onClick={() => selectContentOption(contentOption3)}>
-                                        <Card.Body>
-                                            <Card.Text>{contentOption3}</Card.Text>
-                                        </Card.Body>
-                                    </Card>
+                                    {[contentOption1, contentOption2, contentOption3].map((option, index) => (
+                                        <Card key={index}
+                                              className={`mb-3 ${selectedContent === option ? 'border-primary bg-light' : ''}`}
+                                              style={{cursor: 'pointer'}}
+                                              onClick={() => selectContentOption(option)}>
+                                            <Card.Body>
+                                                <Card.Text>{option}</Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    ))}
                                 </div>
                             </div>
                         </>
-                    )
-                    }
+                    )}
                     <div className="text-center">
                         <Button onClick={goToNextPage} variant="primary" size="lg" className="px-4 py-2 rounded-3">
                             다음 페이지
@@ -128,8 +119,7 @@ const NewStory = () => {
                 </Col>
             </Row>
         </Container>
-    )
-        ;
+    );
 };
 
 export default NewStory;
