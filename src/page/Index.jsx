@@ -1,17 +1,75 @@
-import { Link } from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Button, Card, Col, Container, Dropdown, FormControl, InputGroup, Pagination, Row } from "react-bootstrap";
 import Footer from "../layout/Footer.jsx";
 import StoryList from "../components/StoryList.jsx";
+import PaginationComponent from "../components/PaginationComponent.jsx";
 
 function Index() {
     const [storyList, setStoryList] = useState([]);
-    const searchKeyRef = useRef();
+    const searchKeyRef = useRef(null);
     const [selectedSortOption, setSelectedSortOption] = useState(0);
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 (0부터 시작)
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-    const sortOptions = ["최신순", "오래된순", "조회수 높은순", "조회수 낮은순", "좋아요 많은 순", "좋아요 적은순"];
+
+    const sortOptions = [
+        {
+            displayName: "최신순",
+            sortBy: "createdAt",
+            sortDir: "desc",
+        },
+        {
+            displayName: "오래된순",
+            sortBy: "createdAt",
+            sortDir: "asc",
+        },
+        {
+            displayName: "조회수 높은순",
+            sortBy: "viewCount",
+            sortDir: "desc",
+        },
+        {
+            displayName: "조회수 낮은순",
+            sortBy: "viewCount",
+            sortDir: "asc",
+        },
+        {
+            displayName: "좋아요 많은순",
+            sortBy: "likeCount",
+            sortDir: "desc",
+        },
+        {
+            displayName: "좋아요 적은순",
+            sortBy: "likeCount",
+            sortDir: "asc",
+        },
+    ]
+
+    useEffect(() => {
+        const baseUrl = "http://localhost:8080/api/stories";
+        let params = new URLSearchParams();
+        params.set("page", currentPage);
+        // 검색상태 유지
+        if (searchKeyRef.current.value !== "") {
+            params.set("searchTarget", "title");
+            params.set("searchKey", searchKeyRef.current.value);
+        }
+        params.set("sortBy", sortOptions.at(selectedSortOption).sortBy);
+        params.set("sortDir", sortOptions.at(selectedSortOption).sortDir);
+
+        console.log("ref: ", searchKeyRef.current.value);
+        console.log("url: ", baseUrl + params);
+
+        axios.get(baseUrl + "?" + params)
+            .then(response => {
+                setStoryList(response.data.data.content);
+                setTotalPages(response.data.data.totalPages); // 전체 페이지 수 저장
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }, [selectedSortOption]);
 
     useEffect(() => {
         fetchStories();
@@ -20,7 +78,6 @@ function Index() {
     const fetchStories = () => {
         axios.get(`http://localhost:8080/api/stories?page=${currentPage}`)
             .then((response) => {
-                console.log(response.data.data);
                 setStoryList(response.data.data.content);
                 setTotalPages(response.data.data.totalPages); // 전체 페이지 수 저장
             })
@@ -33,7 +90,6 @@ function Index() {
         const searchKey = searchKeyRef.current.value;
         axios.get(`http://localhost:8080/api/stories?searchTarget=title&searchKey=${searchKey}`)
             .then(response => {
-                console.log(response.data);
                 setStoryList(response.data.data.content);
                 setTotalPages(response.data.data.totalPages); // 검색 후 전체 페이지 수 업데이트
                 setCurrentPage(0); // 검색 시 첫 페이지로 이동
@@ -76,7 +132,7 @@ function Index() {
                     <Col xs={12} md={6} className="text-md-end mt-2 mt-md-0">
                         <Dropdown>
                             <Dropdown.Toggle variant="secondary">
-                                {sortOptions.at(selectedSortOption)}
+                                {sortOptions.at(selectedSortOption).displayName}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {sortOptions.map((option, index) => (
@@ -84,7 +140,7 @@ function Index() {
                                         key={index}
                                         onClick={() => setSelectedSortOption(index)}
                                     >
-                                        {option}
+                                        {option.displayName}
                                     </Dropdown.Item>
                                 ))}
                             </Dropdown.Menu>
@@ -99,25 +155,11 @@ function Index() {
 
                 {/* 페이지네이션 */}
                 <Row className="mt-4">
-                    <Pagination className="justify-content-center">
-                        <Pagination.Prev
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 0}
-                        />
-                        {[...Array(totalPages)].map((_, index) => (
-                            <Pagination.Item
-                                key={index}
-                                active={index === currentPage}
-                                onClick={() => handlePageChange(index)}
-                            >
-                                {index + 1}
-                            </Pagination.Item>
-                        ))}
-                        <Pagination.Next
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages - 1}
-                        />
-                    </Pagination>
+                    <PaginationComponent
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        handlePageChange={handlePageChange}
+                    />,
                 </Row>
             </Container>
             <Footer />
