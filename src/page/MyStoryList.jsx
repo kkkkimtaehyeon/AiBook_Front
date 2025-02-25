@@ -3,18 +3,22 @@ import jwtAxios from "../common/JwtAxios.js";
 import {useNavigate} from "react-router-dom";
 import {Card, CardBody, CardTitle, Col, Container, Row} from "react-bootstrap";
 import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
+import PaginationComponent from "../components/PaginationComponent.jsx";
 
 const MyStoryList = () => {
     const [myStoryList, setMyStoryList] = useState([]);
+    const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 (0부터 시작)
     const navigate = useNavigate();
     const goToStoryDetail = useGoToStoryDetail();
 
     const fetchMyStoryList = () => {
-        jwtAxios.get("http://localhost:8080/api/stories/my")
+        jwtAxios.get(`http://localhost:8080/api/stories/my?page=${currentPage}`)
             .then((response) => {
                 const responseData = response.data;
                 if (responseData.success) {
                     setMyStoryList(response.data.data.content);
+                    setTotalPages(response.data.data.totalPages);
                 } else {
                 }
 
@@ -45,7 +49,13 @@ const MyStoryList = () => {
 
     useEffect(() => {
         fetchMyStoryList();
-    }, []);
+    }, [currentPage]);
+
+    const handlePageChange = (page) => {
+        if (page >= 0 && page < totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
 
     return (
@@ -65,6 +75,11 @@ const MyStoryList = () => {
                         </Col>
                     ))
                 )}
+                <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    handlePageChange={handlePageChange}
+                />
             </Row>
         </Container>
     );

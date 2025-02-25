@@ -1,7 +1,7 @@
-import {Link, useSearchParams} from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import {Link} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import { Button, Card, Col, Container, Dropdown, FormControl, InputGroup, Pagination, Row } from "react-bootstrap";
+import {Button, Card, Col, Container, Dropdown, FormControl, InputGroup, Row} from "react-bootstrap";
 import Footer from "../layout/Footer.jsx";
 import StoryList from "../components/StoryList.jsx";
 import PaginationComponent from "../components/PaginationComponent.jsx";
@@ -57,10 +57,6 @@ function Index() {
         }
         params.set("sortBy", sortOptions.at(selectedSortOption).sortBy);
         params.set("sortDir", sortOptions.at(selectedSortOption).sortDir);
-
-        console.log("ref: ", searchKeyRef.current.value);
-        console.log("url: ", baseUrl + params);
-
         axios.get(baseUrl + "?" + params)
             .then(response => {
                 setStoryList(response.data.data.content);
@@ -150,7 +146,7 @@ function Index() {
 
                 {/* 스토리 리스트 */}
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-                    <StoryList storyList={storyList} />
+                    <StoryList storyList={storyList}/>
                 </Row>
 
                 {/* 페이지네이션 */}
@@ -162,7 +158,7 @@ function Index() {
                     />,
                 </Row>
             </Container>
-            <Footer />
+            <Footer/>
         </>
     );
 }
