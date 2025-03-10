@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Button, Card, Col, Container, Dropdown, FormControl, InputGroup, Row} from "react-bootstrap";
@@ -12,6 +12,7 @@ function Index() {
     const [selectedSortOption, setSelectedSortOption] = useState(0);
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 (0부터 시작)
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
+    const location = useLocation();
 
     const sortOptions = [
         {
@@ -45,6 +46,10 @@ function Index() {
             sortDir: "asc",
         },
     ]
+
+    useEffect(() => {
+        console.log(location.search);
+    }, [location]);
 
     useEffect(() => {
         const baseUrl = "http://localhost:8080/api/stories";
