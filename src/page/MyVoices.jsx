@@ -21,6 +21,8 @@ const MyVoices = () => {
     }, []);
 
     const goToVoiceCloning = () => {
+        // 내 최근 동화를 조회하고 없으면 동화 먼저 생성하도록, 있으면 그 동화 내용으로 보이스 클로닝
+
         navigate("/my/voices/new")
     }
 

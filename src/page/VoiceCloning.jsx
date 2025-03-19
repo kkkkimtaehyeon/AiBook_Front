@@ -1,30 +1,116 @@
 import {Button, Card, Container, FormControl, Spinner} from "react-bootstrap";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import jwtAxios from "../common/JwtAxios.js";
 import {useNavigate} from "react-router-dom";
 
 const VoiceCloning = () => {
-    const [scriptLine, setScriptLine] = useState(0);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const [audioURL, setAudioURL] = useState(null);
     const [isRecording, setIsRecording] = useState(false);
     const [isRecorded, setIsRecorded] = useState(false);
     const [currentAudioBlob, setCurrentAudioBlob] = useState(null);
+    const [allRecordings, setAllRecordings] = useState(Array(10).fill(null)); // Store all 10 recordings
     const [voiceName, setVoiceName] = useState("");
+    const [story, setStory] = useState({})
+    const [currentPage, setCurrentPage] = useState(-1);
     const navigate = useNavigate();
+    const [isCloning, setIsCloning] = useState(false);
 
-    const script = [
-        "녹음 버튼을 누르고 아래의 문장을 읽어주세요!" +
-        "안녕하세요! 저는 동화를 더욱 생동감 있게 들려드리기 위해, 제 목소리를 녹음하고 있습니다." +
-        "이 음성 샘플을 활용하여, 제가 직접 녹음하지 않아도 제 목소리로 동화를 읽어주는 기능을 만들 수 있어요." +
-        "저는 제 음성을 복제하는 것에 동의하며, 이를 통해 더욱 몰입감 있는 동화를 경험할 수 있기를 기대합니다." +
-        "자, 이제 다양한 말하기 방식을 연습해볼까요?" +
-        "기쁠 땐 이렇게 말할 수 있어요! \"우와! 정말 신나는 모험이야!\"" +
-        "슬플 땐, \"정말 슬픈 이야기네요...\"" +
-        "천천히, 조용히 말하면 이런 느낌이 나겠죠? \"쉿, 모두가 잠든 것 같아요.\"" +
-        "마지막으로, 제 목소리가 잘 반영되었을까요? 이제 마법 같은 동화 속으로 함께 떠나볼까요?"
-    ];
+    const fetchLatestStory = () => {
+        const url = "http://localhost:8080/api/stories/my/latest";
+        jwtAxios.get(url)
+            .then(response => {
+                if (response.data.success) {
+                    if (response.data.data === null) {
+                        alert("보이스 클로닝을 하기 위해서 먼저 동화를 만들어주세요.");
+                        navigate("/story/new");
+                    } else {
+                        setStory(response.data.data);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+    useEffect(() => {
+        fetchLatestStory();
+    }, []);
+
+    useEffect(() => {
+        if (currentPage >= 0 && currentPage <= 9) {
+            setIsCloning(true);
+        } else {
+            setIsCloning(false);
+        }
+    }, [currentPage]);
+
+    const getScript = () => {
+        if (currentPage === -1) {
+            return "목소리를 복제하여 동화를 생동감있게 더빙할 수 있습니다!\n 다음 버튼을 눌러 목소리 복제를 시작하세요.";
+        }
+        if (currentPage === 10) {
+            return "목소리의 이름을 설정해주세요.";
+        }
+        if (isCloning) {
+            return story.pages[currentPage].content;
+        }
+    }
+
+    const toNextPage = () => {
+        if (currentPage < 10) {
+            // Save current recording before moving to next page
+            if (currentPage >= 0 && currentAudioBlob) {
+                const newRecordings = [...allRecordings];
+                newRecordings[currentPage] = currentAudioBlob;
+                setAllRecordings(newRecordings);
+            }
+
+            // Reset current recording state
+            setCurrentAudioBlob(null);
+            setAudioURL(null);
+            setIsRecorded(false);
+
+            // Move to next page
+            setCurrentPage(currentPage + 1);
+        }
+    }
+
+    const toPrevPage = () => {
+        if (currentPage >= 0) {
+            // Save current recording before moving to previous page
+            if (currentAudioBlob) {
+                const newRecordings = [...allRecordings];
+                newRecordings[currentPage] = currentAudioBlob;
+                setAllRecordings(newRecordings);
+            }
+
+            // Set current recording to the previous page's recording
+            const prevPageRecording = allRecordings[currentPage - 1];
+            if (prevPageRecording) {
+                setCurrentAudioBlob(prevPageRecording);
+                setAudioURL(URL.createObjectURL(prevPageRecording));
+                setIsRecorded(true);
+            } else {
+                setCurrentAudioBlob(null);
+                setAudioURL(null);
+                setIsRecorded(false);
+            }
+
+            setCurrentPage(currentPage - 1);
+        }
+    }
+
+    const getCurrentPage = () => {
+        if (isCloning) {
+            return (
+                <>
+                    <p>{currentPage + 1 + "/10"}</p>
+                    <p>녹음 버튼을 누르고 아래 문장을 읽어주세요</p>
+                </>);
+        }
+    }
 
     const startRecording = async () => {
         try {
@@ -42,12 +128,15 @@ const VoiceCloning = () => {
                 setAudioURL(url);
                 audioChunksRef.current = [];
                 setIsRecorded(true);
+
+                // Save recording for current page
+                const newRecordings = [...allRecordings];
+                newRecordings[currentPage] = audioBlob;
+                setAllRecordings(newRecordings);
             };
 
             mediaRecorderRef.current.start();
-            setCurrentAudioBlob(null);
             setIsRecording(true);
-            setIsRecorded(false);
         } catch (error) {
             console.error("마이크 접근 실패", error);
         }
@@ -58,70 +147,114 @@ const VoiceCloning = () => {
         setIsRecording(false);
     };
 
+    // Check if all pages have been recorded
+    const areAllPagesRecorded = () => {
+        return allRecordings.every(recording => recording !== null);
+    }
+
     const upload = () => {
-        if (currentAudioBlob !== null) {
-            const url = 'http://localhost:8080/api/voices'
-            const formData = new FormData();
-            formData.append("audioFile", currentAudioBlob, "recording.wav");
-            formData.append("name", voiceName);
-            jwtAxios.post(url, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
+        // Check if all pages are recorded
+        if (!areAllPagesRecorded()) {
+            alert("모든 페이지를 녹음해야 합니다.");
+            return;
+        }
+
+        // Create a single combined FormData with all recordings
+        const url = 'http://localhost:8080/api/voices';
+        const formData = new FormData();
+
+        // Append each recording with a unique name
+        // allRecordings.forEach((recording, index) => {
+        //     formData.append(`audioFile${index}`, recording, `recording${index}.wav`);
+        // });
+        const mergedBlob = new Blob(allRecordings, { type: "audio/wav" });
+        formData.append("audioFile", mergedBlob, "merged_recording.wav");
+        formData.append("name", voiceName);
+
+        jwtAxios.post(url, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+            .then(response => {
+                if (response.data.success) {
+                    alert("목소리가 등록되었습니다.");
+                    navigate("/my/voices");
                 }
             })
-                .then(response => {
-                    if (response.data.success) {
-                        console.log("목소리가 등록되었습니다.");
-                        navigate("/my/voices");
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        } else {
-            alert("먼저 녹음을 해주세요.");
-        }
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     return (
         <Container className="d-flex justify-content-center align-items-center vh-100">
             <Card style={{width: "60%", padding: "20px"}}>
+                {getCurrentPage()}
+
                 <Card.Body>
-                    <Card.Title className="mb-3">🎙️ 내 목소리로 동화 읽기</Card.Title>
                     <Card.Text>
-                        <p>{script[scriptLine]}</p>
+                        <p>{getScript()}</p>
                     </Card.Text>
-                    {isRecording && (
-                        <div>
-                            <Spinner variant="danger" animation="grow" size="sm" className="me-2"/>
-                            녹음 중...
+                    {isCloning ? <>
+                        {isRecording && (
+                            <div>
+                                <Spinner variant="danger" animation="grow" size="sm" className="me-2"/>
+                                녹음 중...
+                            </div>
+                        )}
+
+                        <div className="mt-3">
+                            <Button
+                                onClick={isRecording ? stopRecording : startRecording}
+                                variant={isRecording ? "danger" : "success"}
+                                className="px-4"
+                            >
+                                {isRecording ? "녹음 정지" : isRecorded ? "다시 녹음" : "녹음"}
+                            </Button>
                         </div>
-                    )}
 
-                    <div className="mt-3">
-                        <Button
-                            onClick={isRecording ? stopRecording : startRecording}
-                            variant={isRecording ? "danger" : "success"}
-                            className="px-4"
-                        >
-                            {isRecording ? "녹음 정지" : isRecorded ? "다시 녹음" : "녹음"}
-                        </Button>
-                    </div>
+                        {audioURL && (
+                            <div className="mt-4">
+                                <h3>미리 듣기</h3>
+                                <audio controls src={audioURL} className="w-30"></audio>
+                            </div>
+                        )}
 
-                    {audioURL && (
-                        <div className="mt-4">
-                            <h3>미리 듣기</h3>
-                            <audio controls src={audioURL} className="w-30"></audio>
+                        {/* Display recording completion status */}
+                        <div className="mt-3">
+                            <p>녹음 완료: {allRecordings.filter(r => r !== null).length}/10</p>
                         </div>
-                    )}
-                    <FormControl
-                        value={voiceName}
-                        onChange={(e) => setVoiceName(e.target.value)}
-                        placeholder="목소리의 이름을 입력해주세요."
-                        className="mb-3 text-center" required/>
-
+                    </> : null}
                 </Card.Body>
-                <Button onClick={upload}>등록</Button>
+
+                {currentPage === 10 ? (
+                    <div>
+                        <FormControl
+                            value={voiceName}
+                            onChange={(e) => setVoiceName(e.target.value)}
+                            placeholder="ex) 아빠 목소리...."
+                            className="mb-3 text-center"
+                            required
+                        />
+
+                        <Button
+                            onClick={upload}
+                            disabled={!areAllPagesRecorded() || !voiceName}
+                        >
+                            등록
+                        </Button>
+
+                        {!areAllPagesRecorded() && (
+                            <p className="text-danger mt-2">모든 페이지를 녹음해야 합니다.</p>
+                        )}
+                    </div>
+                ) : null}
+
+                <div className="mt-3 d-flex justify-content-between">
+                    <Button onClick={toPrevPage} disabled={currentPage <= -1}>이전</Button>
+                    <Button onClick={toNextPage} disabled={currentPage >= 10 || (isCloning && !isRecorded)}>다음</Button>
+                </div>
             </Card>
         </Container>
     );
