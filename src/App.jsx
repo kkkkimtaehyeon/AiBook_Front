@@ -11,12 +11,14 @@ import StoryDetail from "./page/StoryDetail.jsx";
 import Layout from "./layout/Layout.jsx";
 import useLoginStore from "./store/useLoginStore.js";
 import "./css/root.css"
-import MyPage from "./page/MyPage.jsx";
+import MyPage from "./page/my/MyPage.jsx";
 import MemberInfo from "./page/MemberInfo.jsx";
-import MyStoryList from "./page/MyStoryList.jsx";
+import MyStoryList from "./page/my/MyStoryList.jsx";
 import EditStory from "./page/EditStory.jsx";
-import MyVoices from "./page/MyVoices.jsx";
+import MyVoices from "./page/my/MyVoices.jsx";
 import VoiceCloning from "./page/VoiceCloning.jsx";
+import MyDubbedStoryList from "./page/my/MyDubbedStoryList.jsx";
+import DubbingSetting from "./page/my/DubbingSetting.jsx";
 
 function App() {
     useLoginStore();
@@ -38,8 +40,10 @@ function App() {
                         <Route path="info" element={<MemberInfo/>}/>
                         <Route path="story/list" element={<MyStoryList/>}/>
                         <Route path="voices" element={<MyVoices/>}/>
+                        <Route path="dubbed-story" element={<MyDubbedStoryList/>}/>
                     </Route>
                     <Route path="/my/voices/new" element={<VoiceCloning />}/>
+                    <Route path="/dubbing/new" element={<DubbingSetting />}/>
                 </Routes>
             </Layout>
 

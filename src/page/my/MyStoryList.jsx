@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import jwtAxios from "../common/JwtAxios.js";
+import jwtAxios from "../../common/JwtAxios.js";
 import {useNavigate} from "react-router-dom";
 import {Card, CardBody, CardTitle, Col, Container, Row} from "react-bootstrap";
-import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
-import PaginationComponent from "../components/PaginationComponent.jsx";
+import {useGoToStoryDetail} from "../../utils/goToStoryDetail.js";
+import PaginationComponent from "../../components/PaginationComponent.jsx";
 
 const MyStoryList = () => {
     const [myStoryList, setMyStoryList] = useState([]);

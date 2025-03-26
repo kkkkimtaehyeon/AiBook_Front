@@ -8,6 +8,7 @@ const SideBar = () => {
         { name: "내 정보", path: "/my/info" },
         { name: "동화 목록", path: "/my/story/list" },
         { name: "목소리 목록", path: "/my/voices" },
+        { name: "더빙", path: "/my/dubbed-story" },
     ];
 
     return (
