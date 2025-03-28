@@ -1,7 +1,5 @@
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import jwtAxios from "../../common/JwtAxios.js";
 import VoiceListComponent from "../../components/VoiceListComponent.jsx";
 
 const MyVoices = () => {

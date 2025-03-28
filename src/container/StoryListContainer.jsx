@@ -1,62 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Col, Dropdown, FormControl, InputGroup, Row} from 'react-bootstrap';
 import PaginationComponent from '../components/PaginationComponent.jsx';
 import {useStoryList} from '../hooks/useStoryList';
 import StoryListComponent from '../components/StoryListComponent.jsx';
 import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
+import StorySearchBarComponent from "../components/StorySearchBarComponent.jsx";
+import SortingComponent from "../components/SortingComponent.jsx";
+import {useSearchParams} from "react-router-dom";
+import axios from "axios";
 
 function StoryListContainer() {
-    const {
-        storyList,
-        currentPage,
-        totalPages,
-        searchKey,
-        sortOption,
-        sortOptions,
-        handlePageChange,
-        handleSearch,
-        handleSortChange
-    } = useStoryList();
     const goToStoryDetail = useGoToStoryDetail();
+    const [storyList, setStoryList] = useState([]);
+    const [totalPages, setTotalPages] = useState();
+    const [searchParams] = useSearchParams();
 
-    const searchKeyRef = React.useRef(null);
+    useEffect(() => {
+        fetchStoryList();
+    }, [searchParams]);
 
-    const onSearchClick = () => {
-        const searchValue = searchKeyRef.current.value;
-        handleSearch(searchValue);
-    };
+    const fetchStoryList = () => {
+        const params = searchParams.toString();
+
+        axios.get(`http://localhost:8080/api/stories?${params}`)
+            .then(response => {
+                setStoryList(response.data.data.content);
+                setTotalPages(response.data.data.totalPages);
+            })
+            .catch(error => {
+                console.error("Error fetching stories:", error);
+            });
+    }
 
     return (
         <>
             {/* 검색창 및 정렬 */}
             <Row className="mt-3 mb-3">
                 <Col xs={12} md={6}>
-                    <InputGroup>
-                        <FormControl
-                            type="text"
-                            placeholder="제목 검색"
-                            ref={searchKeyRef}
-                            defaultValue={searchKey}
-                        />
-                        <Button onClick={onSearchClick}>검색</Button>
-                    </InputGroup>
+                    <StorySearchBarComponent />
                 </Col>
                 <Col xs={12} md={6} className="text-md-end mt-2 mt-md-0">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="secondary">
-                            {sortOption.displayName}
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {sortOptions.map((option, index) => (
-                                <Dropdown.Item
-                                    key={index}
-                                    onClick={() => handleSortChange(index)}
-                                >
-                                    {option.displayName}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <SortingComponent />
                 </Col>
             </Row>
 
@@ -71,9 +55,7 @@ function StoryListContainer() {
             {/* 페이지네이션 */}
             <Row className="mt-4">
                 <PaginationComponent
-                    currentPage={currentPage}
                     totalPages={totalPages}
-                    handlePageChange={handlePageChange}
                 />
             </Row>
         </>

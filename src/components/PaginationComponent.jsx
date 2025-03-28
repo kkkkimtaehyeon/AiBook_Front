@@ -2,33 +2,36 @@ import {Pagination} from "react-bootstrap";
 import {useSearchParams} from "react-router-dom";
 import {useState} from "react";
 
-const PaginationComponent = ({currentPage, totalPages, handlePageChange}) => {
+const PaginationComponent = ({totalPages}) => {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [page, setPage] = useState(currentPage);
+    const [page, setPage] = useState(searchParams.get("page") === null ? 0 : searchParams.get("page"));
+
     const changePage = (page) => {
         setPage(page);
-        searchParams.append("page", page);
+        searchParams.set("page", page);
+        setSearchParams(searchParams);
+        console.log("current page: ", page);
     }
 
     return (
         <Pagination className="justify-content-center">
             <Pagination.Prev
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 0}
+                onClick={() => changePage(page - 1)}
+                disabled={page === 0}
             />
             {[...Array(totalPages)].map((_, index) => (
                 <Pagination.Item
                     key={index}
-                    active={index === currentPage}
-                    onClick={() => handlePageChange(index)}
+                    active={index === page}
+                    onClick={() => changePage(index)}
                 >
                     {index + 1}
                 </Pagination.Item>
             ))}
             <Pagination.Next
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages - 1}
+                onClick={() => changePage(page + 1)}
+                disabled={page === totalPages - 1}
             />
         </Pagination>
     );
