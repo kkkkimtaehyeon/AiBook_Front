@@ -2,7 +2,7 @@ import {Card} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import jwtAxios from "../common/JwtAxios.js";
 
-const VoiceListComponent = (handleClick) => {
+const VoiceListComponent = ({clickHandler}) => {
 
     const [voices, setVoices] = useState([]);
 
@@ -29,7 +29,7 @@ const VoiceListComponent = (handleClick) => {
                 <Card
                     key={index}
                     style={{marginBottom: "10px"}}
-                    onClick={() => handleClick(voice.id)}
+                    onClick={() => clickHandler(voice.id)}
                 >
                     {voice.name}
                 </Card>

@@ -1,16 +1,13 @@
-import { Card, Col } from 'react-bootstrap';
-import { Eye, Heart } from 'react-bootstrap-icons';
-import { useGoToStoryDetail } from '../utils/goToStoryDetail.js';
+import {Card, Col} from 'react-bootstrap';
+import {Eye, Heart} from 'react-bootstrap-icons';
 
-const StoryListComponent = ({ storyList }) => {
-    const goToStoryDetail = useGoToStoryDetail();
-
+const StoryListComponent = ({ storyList, clickHandler}) => {
     return (
         <>
             {storyList.map((story) => (
                 <Col key={story.storyId}>
                     <Card
-                        onClick={() => goToStoryDetail(story.storyId)}
+                        onClick={() => clickHandler(story.storyId)}
                         className="h-100"
                         style={{cursor: 'pointer'}}
                     >

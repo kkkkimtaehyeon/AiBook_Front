@@ -1,11 +1,14 @@
 import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 const MyDubbedStoryList = () => {
 
     return (
-      <>
-          <Button>+ 추가하기</Button>
-      </>  
+        <>
+            <Button as={Link} to={"/dubbing/new"}>
+                + 추가하기
+            </Button>
+        </>
     );
 }
 

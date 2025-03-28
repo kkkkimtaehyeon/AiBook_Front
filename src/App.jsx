@@ -18,7 +18,8 @@ import EditStory from "./page/EditStory.jsx";
 import MyVoices from "./page/my/MyVoices.jsx";
 import VoiceCloning from "./page/VoiceCloning.jsx";
 import MyDubbedStoryList from "./page/my/MyDubbedStoryList.jsx";
-import DubbingSetting from "./page/my/DubbingSetting.jsx";
+import DubbingSetting from "./page/my/NewDubbing.jsx";
+import NewDubbing from "./page/my/NewDubbing.jsx";
 
 function App() {
     useLoginStore();
@@ -43,7 +44,7 @@ function App() {
                         <Route path="dubbed-story" element={<MyDubbedStoryList/>}/>
                     </Route>
                     <Route path="/my/voices/new" element={<VoiceCloning />}/>
-                    <Route path="/dubbing/new" element={<DubbingSetting />}/>
+                    <Route path="/dubbing/new" element={<NewDubbing />}/>
                 </Routes>
             </Layout>
 

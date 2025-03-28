@@ -9,8 +9,7 @@ const MyVoices = () => {
 
     const goToVoiceCloning = () => {
         // 내 최근 동화를 조회하고 없으면 동화 먼저 생성하도록, 있으면 그 동화 내용으로 보이스 클로닝
-
-        navigate("/my/voices/new")
+        navigate("/dubbing/new")
     }
 
     return (
@@ -29,19 +28,6 @@ const MyVoices = () => {
                                 <span>사용자 목소리</span>
                             </div>
                             <VoiceListComponent />
-                        </div>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card style={{ height: "100%"}}>
-
-                        <div style={{textAlign: "left", marginBottom: "10px"}}>
-                            <Button onClick={goToVoiceCloning}>
-                                + 더빙
-                            </Button>
-                        </div>
-                        <div>
-
                         </div>
                     </Card>
                 </Col>

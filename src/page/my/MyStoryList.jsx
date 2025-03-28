@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom";
 import {Card, CardBody, CardTitle, Col, Container, Row} from "react-bootstrap";
 import {useGoToStoryDetail} from "../../utils/goToStoryDetail.js";
 import PaginationComponent from "../../components/PaginationComponent.jsx";
+import StoryListContainer from "../../container/StoryListContainer.jsx";
+import StoryListComponent from "../../components/StoryListComponent.jsx";
 
 const MyStoryList = () => {
     const [myStoryList, setMyStoryList] = useState([]);
@@ -64,16 +66,7 @@ const MyStoryList = () => {
                 {myStoryList === null || myStoryList.length === 0 ? (
                     <p>아직 동화가 없습니다.</p>
                 ) : (
-                    myStoryList.map((story) => (
-                        <Col key={story.storyId}>
-                            <Card style={{cursor: "pointer"}}>
-                                <CardBody onClick={() => goToStoryDetail(story.storyId)}>
-                                    <CardTitle>{story.title}</CardTitle>
-                                </CardBody>
-                            </Card>
-
-                        </Col>
-                    ))
+                    <StoryListComponent storyList={myStoryList} clickHandler={goToStoryDetail} />
                 )}
                 <PaginationComponent
                     currentPage={currentPage}

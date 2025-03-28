@@ -2,7 +2,8 @@ import React from 'react';
 import {Button, Col, Dropdown, FormControl, InputGroup, Row} from 'react-bootstrap';
 import PaginationComponent from '../components/PaginationComponent.jsx';
 import {useStoryList} from '../hooks/useStoryList';
-import StoryListView from '../components/StoryListComponent.jsx';
+import StoryListComponent from '../components/StoryListComponent.jsx';
+import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
 
 function StoryListContainer() {
     const {
@@ -16,6 +17,7 @@ function StoryListContainer() {
         handleSearch,
         handleSortChange
     } = useStoryList();
+    const goToStoryDetail = useGoToStoryDetail();
 
     const searchKeyRef = React.useRef(null);
 
@@ -60,7 +62,10 @@ function StoryListContainer() {
 
             {/* 스토리 리스트 */}
             <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-                <StoryListView storyList={storyList}/>
+                <StoryListComponent
+                    storyList={storyList}
+                    clickHandler={goToStoryDetail}
+                />
             </Row>
 
             {/* 페이지네이션 */}

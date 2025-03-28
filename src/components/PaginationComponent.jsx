@@ -1,6 +1,15 @@
 import {Pagination} from "react-bootstrap";
+import {useSearchParams} from "react-router-dom";
+import {useState} from "react";
 
 const PaginationComponent = ({currentPage, totalPages, handlePageChange}) => {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [page, setPage] = useState(currentPage);
+    const changePage = (page) => {
+        setPage(page);
+        searchParams.append("page", page);
+    }
 
     return (
         <Pagination className="justify-content-center">
