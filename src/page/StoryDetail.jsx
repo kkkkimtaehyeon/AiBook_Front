@@ -1,7 +1,7 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Button, Card, Container, Row} from "react-bootstrap";
-import {Eye, Heart, HeartFill, Pause, Play} from 'react-bootstrap-icons';
+import {Eye, Heart, HeartFill} from 'react-bootstrap-icons';
 import jwtAxios from "../common/JwtAxios.js";
 import useLoginStore from "../store/useLoginStore.js";
 
@@ -12,8 +12,6 @@ const StoryDetail = () => {
     const [pageNumber, setPageNumber] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const {isLogin, memberId} = useLoginStore();
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [audio, setAudio] = useState(null);
 
     useEffect(() => {
         jwtAxios.get(`http://localhost:8080/api/stories/${storyId}`)
@@ -61,22 +59,6 @@ const StoryDetail = () => {
             });
     }
 
-    const playDubbingAudio = (dubbingAudioUrl) => {
-        setIsPlaying(true);
-        const newAudio = new Audio(dubbingAudioUrl);
-        setAudio(newAudio);
-        newAudio.play();
-        newAudio.onended = () => setIsPlaying(false);
-    }
-
-    const stopDubbingAudio = () => {
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
-            setIsPlaying(false);
-        }
-    }
-
     const deleteStory = () => {
         jwtAxios.delete(`http://localhost:8080/api/stories/${storyId}`)
             .then(response => {
@@ -121,23 +103,13 @@ const StoryDetail = () => {
                             <>
                                 <Card style={{width: "100%", height: "500px"}}>
                                     <p>{currentPage.content || "페이지를 찾을 수 없습니다."}</p>
-                                    {currentPage.dubbingAudioUrl && (
-                                        <div>
-                                            {isPlaying ?
-                                                <Pause onClick={stopDubbingAudio}/>
-                                                :
-                                                <Play onClick={() => {
-                                                    playDubbingAudio(currentPage.dubbingAudioUrl)
-                                                }}/>
-                                            }
-                                        </div>
-                                    )}
                                 </Card>
                                 <p>{currentPage.pageNumber || 0}/10</p>
                             </>
                         );
                     })()
                 )}
+
             </Row>
             <Row>
                 <div>

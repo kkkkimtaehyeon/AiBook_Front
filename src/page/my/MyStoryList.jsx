@@ -1,27 +1,30 @@
 import {useEffect, useState} from "react";
 import jwtAxios from "../../common/JwtAxios.js";
-import {useNavigate} from "react-router-dom";
-import {Card, CardBody, CardTitle, Col, Container, Row} from "react-bootstrap";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {Col, Container, Row} from "react-bootstrap";
 import {useGoToStoryDetail} from "../../utils/goToStoryDetail.js";
 import PaginationComponent from "../../components/PaginationComponent.jsx";
-import StoryListContainer from "../../container/StoryListContainer.jsx";
 import StoryListComponent from "../../components/StoryListComponent.jsx";
+import StorySearchBarComponent from "../../components/StorySearchBarComponent.jsx";
+import SortingComponent from "../../components/SortingComponent.jsx";
 
 const MyStoryList = () => {
-    const [myStoryList, setMyStoryList] = useState([]);
-    const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
-    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 (0부터 시작)
     const navigate = useNavigate();
     const goToStoryDetail = useGoToStoryDetail();
+    const [storyList, setStoryList] = useState([]);
+    const [totalPages, setTotalPages] = useState();
+    const [searchParams] = useSearchParams();
 
     const fetchMyStoryList = () => {
-        jwtAxios.get(`http://localhost:8080/api/stories/my?page=${currentPage}`)
+        const params = searchParams.toString();
+        jwtAxios.get(`http://localhost:8080/api/stories/my?${params}`)
             .then((response) => {
                 const responseData = response.data;
                 if (responseData.success) {
-                    setMyStoryList(response.data.data.content);
+                    setStoryList(response.data.data.content);
                     setTotalPages(response.data.data.totalPages);
                 } else {
+                    //
                 }
 
             })
@@ -34,44 +37,23 @@ const MyStoryList = () => {
             });
     }
 
-    const deleteStory = async (storyId) => {
-        try {
-            const response = await jwtAxios.delete(`http://localhost:8080/api/stories/${storyId}`);
-            if (response.data.success) {
-                if (response.data.data.code === "NO_CONTENT") {
-                    window.location.reload();
-                }
-            } else {
-                alert("동화 삭제가 실패했습니다.");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     useEffect(() => {
         fetchMyStoryList();
-    }, [currentPage]);
-
-    const handlePageChange = (page) => {
-        if (page >= 0 && page < totalPages) {
-            setCurrentPage(page);
-        }
-    };
+    }, [searchParams]);
 
 
     return (
         <Container>
             <Row className="g-4">
-                {myStoryList === null || myStoryList.length === 0 ? (
+                <StorySearchBarComponent/>
+                <SortingComponent/>
+                {storyList === null || storyList.length === 0 ? (
                     <p>아직 동화가 없습니다.</p>
                 ) : (
-                    <StoryListComponent storyList={myStoryList} clickHandler={goToStoryDetail} />
+                    <StoryListComponent storyList={storyList} clickHandler={goToStoryDetail}/>
                 )}
                 <PaginationComponent
-                    currentPage={currentPage}
                     totalPages={totalPages}
-                    handlePageChange={handlePageChange}
                 />
             </Row>
         </Container>

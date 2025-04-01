@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Col, Dropdown, FormControl, InputGroup, Row} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 import PaginationComponent from '../components/PaginationComponent.jsx';
-import {useStoryList} from '../hooks/useStoryList';
 import StoryListComponent from '../components/StoryListComponent.jsx';
 import {useGoToStoryDetail} from "../utils/goToStoryDetail.js";
 import StorySearchBarComponent from "../components/StorySearchBarComponent.jsx";
@@ -37,10 +36,10 @@ function StoryListContainer() {
             {/* 검색창 및 정렬 */}
             <Row className="mt-3 mb-3">
                 <Col xs={12} md={6}>
-                    <StorySearchBarComponent />
+                    <StorySearchBarComponent/>
                 </Col>
                 <Col xs={12} md={6} className="text-md-end mt-2 mt-md-0">
-                    <SortingComponent />
+                    <SortingComponent/>
                 </Col>
             </Row>
 
