@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react'
-import jwtAxios from "../common/JwtAxios.js";
-import useLoginStore from "../store/useLoginStore.js";
+import jwtAxios from "../../common/JwtAxios.js";
+import useLoginStore from "../../store/useLoginStore.js";
 
 const LoginLoading = () => {
     const navigate = useNavigate();

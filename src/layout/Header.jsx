@@ -11,11 +11,11 @@ import '../css/layout/header.css'
 const Header = () => {
     const {isLogin, memberId, memberName, setLogout} = useLoginStore();
 
-    useEffect(() => {
-        console.log("isLogin: ", isLogin);
-        console.log("memberId: ", memberId);
-        console.log("memberName: ", memberName);
-    }, []);
+    // useEffect(() => {
+    //     console.log("isLogin: ", isLogin);
+    //     console.log("memberId: ", memberId);
+    //     console.log("memberName: ", memberName);
+    // }, []);
 
     const logout = async () => {
         const response = await jwtAxios.get("http://localhost:8080/api/logout");

@@ -1,8 +1,8 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import './App.css';
-import Login from "./page/Login.jsx";
+import Login from "./page/auth/Login.jsx";
 import Index from "./page/Index.jsx";
-import {LoginLoading} from "./page/LoginLoading.jsx";
+import {LoginLoading} from "./page/auth/LoginLoading.jsx";
 import {SignUp} from "./page/SignUp.jsx";
 import NewBaseStory from "./page/NewBaseStory.jsx";
 import NewStory from "./page/NewStory.jsx";
