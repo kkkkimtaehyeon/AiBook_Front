@@ -1,42 +1,30 @@
-import {Card} from "react-bootstrap";
-import {useEffect, useState} from "react";
-import jwtAxios from "../common/JwtAxios.js";
+import {Card, Form} from "react-bootstrap";
 
-const VoiceListComponent = ({clickHandler}) => {
-
-    const [voices, setVoices] = useState([]);
-
-    useEffect(() => {
-        getVoices();
-    }, []);
-
-    const getVoices = () => {
-        const url = "http://localhost:8080/api/voices";
-        jwtAxios.get(url)
-            .then((response) => {
-                if (response.data.success) {
-                    setVoices(response.data.data);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
-
+const VoiceListComponent = ({clickHandler, voices, isEditMode = false, selectedVoiceId, setSelectedVoiceId}) => {
     return (
         <>
-            {voices.map((voice, index) => (
+            {voices.map((voice) => (
                 <Card
-                    key={index}
-                    style={{marginBottom: "10px"}}
+                    key={voice.id}
                     onClick={() => clickHandler(voice.id)}
+                    style={{cursor: "pointer", marginBottom: "10px", display: "flex", alignItems: "center", padding: "10px"}}
                 >
+                    {isEditMode && (
+                        <Form.Check
+                            type="radio"
+                            name="voiceSelect"
+                            value={voice.id}
+                            checked={selectedVoiceId === voice.id}
+                            onChange={() => setSelectedVoiceId(voice.id)} // ✅ 선택한 항목 변경
+                            style={{marginRight: "10px"}}
+                        />
+                    )}
+
                     {voice.name}
                 </Card>
             ))}
         </>
     );
-
-}
+};
 
 export default VoiceListComponent;

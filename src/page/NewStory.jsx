@@ -23,10 +23,9 @@ const NewStory = () => {
                 try {
                     // GPT에게 문장후보 생성 요청
                     const data = {
-                        source: exStory,
-                        pageNumber: pageNumber,
+                        selectedContent: exStory,
                     };
-                    const response = await jwtAxios.post("http://localhost:8000/api/story/generate", data);
+                    const response = await jwtAxios.post(`http://localhost:8000/api/stories/${storyId}/pages/${pageNumber}`, data);
                     // 문장후보 생성 성공 시 출력
                     if (response) {
                         setContentOption1(response.data.contentOption1);
@@ -42,6 +41,33 @@ const NewStory = () => {
             generateStoryOptions();
         }
     }, [pageNumber]);
+    // useEffect(() => {
+    //     if (exStory) {
+    //         const generateStoryOptions = async () => {
+    //             setLoading(true);
+    //
+    //             try {
+    //                 // GPT에게 문장후보 생성 요청
+    //                 const data = {
+    //                     source: exStory,
+    //                     pageNumber: pageNumber,
+    //                 };
+    //                 const response = await jwtAxios.post("http://localhost:8000/api/story/generate", data);
+    //                 // 문장후보 생성 성공 시 출력
+    //                 if (response) {
+    //                     setContentOption1(response.data.contentOption1);
+    //                     setContentOption2(response.data.contentOption2);
+    //                     setContentOption3(response.data.contentOption3);
+    //                     setLoading(false);
+    //                 }
+    //
+    //             } catch (error) {
+    //                 console.log(error);
+    //             }
+    //         };
+    //         generateStoryOptions();
+    //     }
+    // }, [pageNumber]);
 
     // 다음 페이지로 이동
     const goToNextPage = () => {

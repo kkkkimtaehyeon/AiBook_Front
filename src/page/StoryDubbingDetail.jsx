@@ -1,8 +1,7 @@
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {Button, Card, Container, Row} from "react-bootstrap";
-import {Eye, Heart, HeartFill} from "react-bootstrap-icons";
 import AudioPlayerComponent from "../components/AudioPlayerComponent.jsx";
 
 const StoryDubbingDetail = () => {
@@ -70,7 +69,7 @@ const StoryDubbingDetail = () => {
                                 <Card style={{width: "100%", height: "500px"}}>
                                     <p>{currentPage.content || "페이지를 찾을 수 없습니다."}</p>
                                 </Card>
-                                <AudioPlayerComponent currentPage={currentPage} />
+                                <AudioPlayerComponent currentPage={currentPage}/>
                                 <p>{currentPage.pageNumber || 0}/10</p>
                             </>
                         );

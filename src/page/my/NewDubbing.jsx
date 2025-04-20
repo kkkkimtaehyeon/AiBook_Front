@@ -4,7 +4,8 @@ import StoryListComponent from '../../components/StoryListComponent.jsx';
 import jwtAxios from "../../common/JwtAxios.js";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Row} from "react-bootstrap";
-import PaginationComponent from "../../components/PaginationComponent.jsx"; // 나중에 추가할 컴포넌트
+import PaginationComponent from "../../components/PaginationComponent.jsx";
+import StorySearchBarComponent from "../../components/StorySearchBarComponent.jsx"; // 나중에 추가할 컴포넌트
 
 const NewDubbing = () => {
     const [voiceId, setVoiceId] = useState(null);
@@ -14,6 +15,7 @@ const NewDubbing = () => {
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
     const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 번호 (0부터 시작)
     const navigate = useNavigate();
+    const [voices, setVoices] = useState([]);
 
     useEffect(() => {
         fetchMyStoryList();
@@ -21,6 +23,26 @@ const NewDubbing = () => {
 
     const fetchMyStoryList = () => {
         jwtAxios.get(`http://localhost:8080/api/stories/my`)
+            .then((response) => {
+                const responseData = response.data;
+                if (responseData.success) {
+                    setMyStoryList(response.data.data.content);
+                    setTotalPages(response.data.data.totalPages);
+                } else {
+                }
+
+            })
+            .catch(error => {
+                console.log(error);
+                if (error.status === 401 || error.status === 403) {
+                    alert("로그인이 필요한 서비스입니다.");
+                    navigate("/login");
+                }
+            });
+    }
+
+    const fetchAllStoryList = () => {
+        jwtAxios.get(`http://localhost:8080/api/stories`)
             .then((response) => {
                 const responseData = response.data;
                 if (responseData.success) {
@@ -54,7 +76,21 @@ const NewDubbing = () => {
         if (storyId) {
             setStep(2);
         }
+        fetchVoices();
+
     }
+    const fetchVoices = () => {
+        const url = "http://localhost:8080/api/voices";
+        jwtAxios.get(url)
+            .then((response) => {
+                if (response.data.success) {
+                    setVoices(response.data.data);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handlePreviousStep = () => {
         // 이전 단계로 돌아가기
@@ -89,6 +125,12 @@ const NewDubbing = () => {
             {step === 1 && (
                 <div className="story-selection">
                     <h2>더빙할 동화를 선택해주세요</h2>
+                    <div>
+                        <Button onClick={() => fetchMyStoryList()}>내 동화</Button>
+                        <Button onClick={() => fetchAllStoryList()}>전체 동화</Button>
+                    </div>
+                    <StorySearchBarComponent />
+                    
                     <Row className={"g-4"}>
                         <StoryListComponent
                             storyList={myStoryList}
@@ -115,7 +157,9 @@ const NewDubbing = () => {
             {step === 2 && (
                 <div className="voice-selection">
                     <h2>보이스 선택</h2>
-                    <VoiceListComponent clickHandler={handleVoiceClick}/>
+                    <VoiceListComponent
+                        voices={voices}
+                        clickHandler={handleVoiceClick}/>
                     <div className="navigation-buttons">
                         <Button onClick={handlePreviousStep}>
                             뒤로
