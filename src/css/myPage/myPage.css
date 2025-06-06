@@ -1,22 +1,46 @@
-.my-page-container {
-    display: flex;
-    height: 100vh;
-    background-color: #f8f9fa; /* 전체 배경 통일 */
-}
+     /* myPage.css */
+ .my-page-container {
+     padding: 1rem;
+ }
 
-/* 사이드바 스타일 */
 .sidebar-container {
-    width: 250px; /* 사이드바 너비 조정 */
     background-color: #f8f9fa;
-    padding: 20px;
-    border-right: 1px solid #ddd; /* 구분선 */
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 메인 콘텐츠 */
 .content-container {
-    flex-grow: 1; /* 나머지 공간을 차지하도록 설정 */
-    display: flex;
-    /*align-items: center;*/
-    /*justify-content: center;*/
-    padding: 20px;
+    padding: 1rem;
+}
+
+.content-wrapper {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+/* 모바일 화면에서의 스타일 */
+@media (max-width: 767.98px) {
+    .vh-100 {
+        height: auto !important; /* 모바일에서는 높이 자동 조정 */
+    }
+
+    .sidebar-container {
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    .dropdown-menu-container {
+        width: 100%;
+    }
+}
+
+/* 데스크탑 화면에서의 스타일 */
+@media (min-width: 768px) {
+    .sidebar-container {
+        height: 100%;
+        border-radius: 0.5rem;
+    }
 }

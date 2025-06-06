@@ -1,8 +1,9 @@
-import {Card, Col} from 'react-bootstrap';
+import {Card, CardBody, CardText, CardTitle, Col} from 'react-bootstrap';
 import {Eye, Heart} from 'react-bootstrap-icons';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import '/src/css/components/story/storyListComponent.css';
 
-const StoryListComponent = ({storyList, clickHandler}) => {
+const StoryListComponent = ({storyList, clickHandler, handleTagParam}) => {
     const [selectedStoryId, setSelectedStoryId] = useState(null);
 
     const handleCardClick = (storyId) => {
@@ -10,31 +11,54 @@ const StoryListComponent = ({storyList, clickHandler}) => {
         clickHandler(storyId); // 기존 클릭 핸들러 실행
     };
 
+    useEffect(() => {
+        console.log(storyList);
+    }, []);
+
     return (
         <>
             {storyList.map((story) => (
                 <Col key={story.storyId}>
                     <Card
+                        className={"mb-3 p-1"}
                         onClick={() => handleCardClick(story.storyId)}
-                        className="h-100"
                         style={{
                             cursor: 'pointer',
-                            backgroundColor: selectedStoryId === story.storyId ? '#d3e4ff' : 'white', // 선택 시 색 변경
-                            transition: 'background-color 0.3s ease' // 부드러운 색 변경 효과
+                            backgroundColor: selectedStoryId === story.storyId ? '#d3e4ff' : 'white',
+                            transition: 'background-color 0.3s ease',
                         }}
                     >
-                        <Card.Body>
-                            <Card.Title>{story.title}</Card.Title>
-                            <Card.Text>{story.memberName}</Card.Text>
-                            <div className="d-flex justify-content-between">
-                                <div>
-                                    <Eye className="me-1"/>{story.viewCount}
-                                </div>
-                                <div>
-                                    <Heart className="me-1"/>{story.likeCount}
-                                </div>
-                            </div>
-                        </Card.Body>
+                        {/*<img*/}
+                        {/*    className={"card-img-top"}*/}
+                        {/*    src={"/src/assets/image_loading.jpg"}*/}
+                        {/*    alt={"..."} />*/}
+                        <CardBody className={"text-start"}>
+                            <CardTitle>{story.title}</CardTitle>
+                            <CardText>{story.memberName}</CardText>
+                            <Eye style={{color: "blue", marginRight: 2}}/>
+                            <span>{story.viewCount} </span>
+                            <Heart style={{color: "red", marginRight: 2}}/>
+                            <span>{story.likeCount}</span>
+                            {story.tagList !== null ? (
+                                    <div>
+                                        {story.tagList.map((tag) => (
+                                            <button
+                                                className="tag-btn"
+                                                key={tag.id}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();         // 카드 클릭 이벤트 차단
+                                                    handleTagParam(tag.id);      // 태그 클릭 동작 수행
+                                                }}
+                                            >
+                                                # {tag.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) :
+                                null
+                            }
+
+                        </CardBody>
                     </Card>
                 </Col>
             ))}

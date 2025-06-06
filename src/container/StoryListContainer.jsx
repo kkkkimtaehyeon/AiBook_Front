@@ -35,10 +35,10 @@ function StoryListContainer() {
         <>
             {/* 검색창 및 정렬 */}
             <Row className="mt-3 mb-3">
-                <Col xs={12} md={6}>
+                <Col xs={12} md={10}>
                     <StorySearchBarComponent/>
                 </Col>
-                <Col xs={12} md={6} className="text-md-end mt-2 mt-md-0">
+                <Col xs={12} md={2} className="text-md-end mt-2 mt-md-0">
                     <SortingComponent/>
                 </Col>
             </Row>

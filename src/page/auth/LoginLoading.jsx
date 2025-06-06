@@ -8,40 +8,44 @@ const LoginLoading = () => {
     const navigate = useNavigate();
     const {setLogin} = useLoginStore();
 
-    const processLogin = async (token) => {
-        localStorage.setItem('access-token', token);
-
-        const response = await jwtAxios.get("http://localhost:8080/api/me");
-        const responseData = response.data;
-        try {
-            if (responseData.success) {
-                setLogin(responseData.data.memberId, responseData.data.memberName);
-            } else {
-                alert("로그인 중 오류 발생");
-                console.log(responseData);
-            }
-        } catch (error) {
-            alert("로그인 중 오류 발생");
-            console.log(error);
-        }
+    const fetchMemberInfo = () => {
+        jwtAxios.get("http://localhost:8080/api/members/me")
+            .then(res => {
+                if (res.status === 200) {
+                    const responseData = res.data.data;
+                    setLogin(responseData.memberId, responseData.memberName);
+                } else {
+                    alert("회원 정보 조회 중 오류 발생");
+                    console.log("error: ", res);
+                }
+            })
+            .catch(err => {
+                alert("회원 정보 조회 중 오류 발생");
+                console.log(err);
+            })
     }
+
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
         const url = 'http://localhost:8080/login/oauth2/code/kakao';
 
-        axios.get(`${url}?code=${code}`)
+        axios.get(`${url}?code=${code}`, {withCredentials: true})
             .then(res => {
-                const responseData = res.data;
-                if (responseData.success) {
-                    if (responseData.code === 'FORBIDDEN') {
+                if (res.status === 200) {
+                    const responseBody = res.data;
+
+                    if (responseBody.message === 'signup required') { // 회원가입 안된 유저는 회원가입 페이지로 리다이렉트
+                        const oauthProviderMemberId = responseBody.data;
                         alert('최초가입이 필요합니다.');
-                        navigate('/signup', {state: {oauthProvider: responseData.data}});
-                    } else if (responseData.code === 'OK') {
-                        const token = responseData.data;
-                        processLogin(token);
-                        navigate('/');
+                        navigate('/signup', {state: {oauthProvider: oauthProviderMemberId}});
+                    }
+                    else { // 회원가입 된 유저는 로그인 처리
+                        const accessToken = responseBody.data;
+                        localStorage.setItem('access-token', accessToken);
+                        fetchMemberInfo();
+                        navigate('/home');
                     }
                 } else {
                     console.log(res);
@@ -49,7 +53,9 @@ const LoginLoading = () => {
                     navigate('/login');
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err)
+            });
     }, []);
 
     return (

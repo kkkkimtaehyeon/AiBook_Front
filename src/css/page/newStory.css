@@ -1,0 +1,176 @@
+/*/* Modern Apple-inspired Story Form Styles */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+/* Container styles */
+.story-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+/* Page indicator */
+.story-page-indicator {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 500;
+    color: #86868b;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: -0.01em;
+    display: block;
+    text-align: center;
+}
+
+/* Content section headings */
+.story-section-heading {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #1d1d1f;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+/* Previous content display */
+.story-previous-content {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    border-radius: 12px !important;
+    padding: 1.2rem !important;
+    line-height: 1.6;
+    color: #1d1d1f;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+/* Content options container */
+.story-options-container {
+    margin-bottom: 2rem;
+}
+
+/* Individual story option card */
+.story-option-card {
+    background-color: #ffffff;
+    border-radius: 12px !important;
+    border: 1px solid #e5e5e7 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    margin-bottom: 1rem !important;
+    cursor: pointer;
+}
+
+.story-option-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Selected story option card */
+.story-option-card-selected {
+    border-color: #007aff !important;
+    background-color: rgba(0, 122, 255, 0.05) !important;
+    box-shadow: 0 0 0 1px #007aff, 0 4px 12px rgba(0, 122, 255, 0.1);
+}
+
+/* Card body styles */
+.story-option-card-body {
+    padding: 1.2rem;
+}
+
+/* Card text styles */
+.story-option-text {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #1d1d1f;
+    margin-bottom: 0;
+}
+
+/* Loading spinner */
+.story-loading-spinner {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+}
+
+/* Loading button styles */
+.story-loading-button {
+    background-color: #f5f5f7 !important;
+    border: 1px solid #e5e5e7 !important;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 500;
+    padding: 0.7rem 1.5rem !important;
+    font-size: 1rem !important;
+    border-radius: 30px !important;
+    color: #86868b !important;
+}
+
+/* Navigation button */
+.story-navigation-button {
+    background-color: #007aff !important;
+    border-color: #007aff !important;
+    color: white !important;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    padding: 0.7rem 2rem !important;
+    font-size: 1rem !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2);
+    margin-top: 1rem;
+}
+
+.story-navigation-button:hover {
+    background-color: #0062cc !important;
+    border-color: #0062cc !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3);
+}
+
+.story-navigation-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 122, 255, 0.2);
+}
+
+/* Button container */
+.story-button-container {
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .story-section-heading {
+        font-size: 1.2rem;
+    }
+
+    .story-option-card-body {
+        padding: 1rem;
+    }
+
+    .story-option-text {
+        font-size: 0.95rem;
+    }
+
+    .story-navigation-button {
+        padding: 0.6rem 1.8rem !important;
+        font-size: 0.95rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .story-container {
+        padding-top: 1.5rem;
+        padding-bottom: 3rem;
+    }
+
+    .story-section-heading {
+        font-size: 1.1rem;
+    }
+
+    .story-previous-content {
+        padding: 1rem !important;
+    }
+
+    .story-option-card-body {
+        padding: 0.9rem;
+    }
+}

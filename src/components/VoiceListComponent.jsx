@@ -7,7 +7,16 @@ const VoiceListComponent = ({clickHandler, voices, isEditMode = false, selectedV
                 <Card
                     key={voice.id}
                     onClick={() => clickHandler(voice.id)}
-                    style={{cursor: "pointer", marginBottom: "10px", display: "flex", alignItems: "center", padding: "10px"}}
+                    style={{
+                        cursor: "pointer",
+                        marginBottom: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "10px",
+                        width: "100%",        // 또는 "500px" 같은 고정값도 가능
+                        maxWidth: "600px",    // 필요시 최대 너비 제한
+                        margin: "0 auto"      // 중앙 정렬 (선택사항)
+                    }}
                 >
                     {isEditMode && (
                         <Form.Check

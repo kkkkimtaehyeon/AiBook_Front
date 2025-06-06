@@ -19,6 +19,7 @@ const useLoginStore = create(
 
             setLogout: () => {
                 localStorage.removeItem('access-token');
+                deleteCookie("refresh-token")
                 set({
                     isLogin: false,
                     memberId: null,
@@ -32,5 +33,10 @@ const useLoginStore = create(
         }
     )
 );
+
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+}
 
 export default useLoginStore;

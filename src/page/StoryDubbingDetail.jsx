@@ -16,9 +16,9 @@ const StoryDubbingDetail = () => {
 
     const fetchStoryDubbing = () => {
         axios.get(`http://localhost:8080/api/stories/dubbed-stories/${storyDubbingId}`)
-            .then((response) => {
-                if (response.data.success) {
-                    setStoryDetail(response.data.data);
+            .then((res) => {
+                if (res.status === 200) {
+                    setStoryDetail(res.data.data);
                 }
             })
             .catch(error => console.log(error));

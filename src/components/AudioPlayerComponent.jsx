@@ -2,7 +2,7 @@ import {Pause, Play} from "react-bootstrap-icons";
 import {useState} from "react";
 import {Card} from "react-bootstrap";
 
-const AudioPlayerComponent = ({currentPage}) => {
+const AudioPlayerComponent = ({audioUrl}) => {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [audio, setAudio] = useState(null);
@@ -25,13 +25,13 @@ const AudioPlayerComponent = ({currentPage}) => {
 
     return (
         <Card>
-            {currentPage.audioUrl && (
+            {audioUrl && (
                 <div>
                     {isPlaying ?
                         <Pause onClick={stopDubbingAudio}/>
                         :
                         <Play onClick={() => {
-                            playDubbingAudio(currentPage.audioUrl)
+                            playDubbingAudio(audioUrl)
                         }}/>
                     }
                 </div>

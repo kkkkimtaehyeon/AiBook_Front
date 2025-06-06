@@ -18,12 +18,12 @@ const Header = () => {
     // }, []);
 
     const logout = async () => {
-        const response = await jwtAxios.get("http://localhost:8080/api/logout");
+        const response = await jwtAxios.get("http://localhost:8080/api/logout", {withCredentials: true});
         try {
             if (response.data.success) {
                 localStorage.removeItem("access-token");
                 setLogout();
-                window.location.assign("/");
+                window.location.assign("/home");
             }
         } catch (error) {
             console.log(error);
@@ -34,7 +34,7 @@ const Header = () => {
         <>
             <Navbar bg="light" variant="dark" expand="md" className="px-3 header">
                 {/* 왼쪽 로고 */}
-                <Navbar.Brand as={Link} to="/" className="fw-bold">
+                <Navbar.Brand as={Link} to="/home" className="fw-bold">
                     <Image
                         src={"/src/assets/aibook_logo.png"}
                         style={{ width: "50px", height: "auto", margin: "0 auto", display: "block" }}

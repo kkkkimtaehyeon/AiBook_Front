@@ -1,4 +1,5 @@
-import {Card, CardBody, Image} from "react-bootstrap";
+import {Card, CardBody, Container, Image} from "react-bootstrap";
+import PageHeader from "../../newComponents/PageHeader.jsx";
 
 const Login = () => {
 
@@ -15,7 +16,8 @@ const Login = () => {
     }
 
     return (
-        <>
+        <Container className={"py-4"}>
+            <PageHeader title={"로그인"} />
             <Card>
                 <Image
                     src={"/src/assets/aibook_logo.png"}
@@ -31,7 +33,7 @@ const Login = () => {
                     />
                 </CardBody>
             </Card>
-        </>
+        </Container>
     );
 }
 
