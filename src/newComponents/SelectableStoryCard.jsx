@@ -4,7 +4,7 @@ const SelectableStoryCard = ({
                                  story,
                                  isSelected,
                                  onSelect,
-                                 imageUrl = "/src/assets/image_loading.jpg"
+                                 imageUrl = "/public/assets/image_loading.jpg"
                              }) => {
     return (
         <div

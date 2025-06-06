@@ -4,7 +4,7 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import PageHeader from "../../newComponents/PageHeader.jsx";
 import useStoryStore from "../../store/useStoryStore.js";
-import {api} from "../../common/CustomAxios.js";
+import {ai, api} from "../../common/CustomAxios.js";
 
 const NewStorySettingPage = () => {
     const [tags, setTags] = useState([{id: 1, name: "액션"}, {id: 2, name: "로맨스"}]);
@@ -20,7 +20,7 @@ const NewStorySettingPage = () => {
     }, []);
 
     const requestCoverImageGeneration = () => {
-        axios.post(`http://localhost:8000/v3/ai/stories/${storyId}/image-generation`, {contents: selectedSentences})
+        ai.post(`/v3/ai/stories/${storyId}/image-generation`, {contents: selectedSentences})
             .then(res => {
                 if (res.status === 200) {
                     const base64Image = res.data.base64Image;

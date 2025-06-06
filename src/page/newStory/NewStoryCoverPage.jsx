@@ -22,7 +22,7 @@ const NewStoryCoverPage = () => {
     const isPublic = true;
     const tagIds = [1,2];
 
-    const cover = "/src/assets/img.png"
+    const cover = "/public/assets/img.png"
 
 
     useEffect(() => {

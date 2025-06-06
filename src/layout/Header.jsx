@@ -36,7 +36,7 @@ const Header = () => {
                 {/* 왼쪽 로고 */}
                 <Navbar.Brand as={Link} to="/home" className="fw-bold">
                     <Image
-                        src={"/src/assets/aibook_logo.png"}
+                        src={"/public/assets/aibook_logo.png"}
                         style={{ width: "50px", height: "auto", margin: "0 auto", display: "block" }}
                         alt={"아이북"}>
                     </Image>

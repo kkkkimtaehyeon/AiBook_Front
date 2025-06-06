@@ -24,7 +24,7 @@ const LoginModal = ({ isOpen, toggle }) => {
             <Modal.Body className="text-center">
                 <Image
                     onClick={goToKakaLoginPage}
-                    src={"/src/assets/kakao_login_medium_wide.png"}
+                    src={"/public/assets/kakao_login_medium_wide.png"}
                     alt="카카오 로그인"
                     style={{ cursor: "pointer" }}
                 />

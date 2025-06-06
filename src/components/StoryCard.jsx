@@ -6,7 +6,7 @@ const StoryCard = (story) => {
         <Row xs={2} sm={2} md={3} lg={4} xl={4}>
             <Col className={"text-start"}>
                 <img
-                    src="/src/assets/image_loading.jpg"
+                    src="/assets/image_loading.jpg"
                     alt="img"
                     className="img-fluid rounded-4 mb-2"
                     style={{height: "auto", width: "100%"}}
@@ -22,7 +22,7 @@ const StoryCard = (story) => {
             </Col>
             <Col className={"text-start"}>
                 <img
-                    src="/src/assets/image_loading.jpg"
+                    src="/assets/image_loading.jpg"
                     alt="img"
                     className="img-fluid rounded-4 mb-2"
                     style={{height: "auto", width: "100%"}}

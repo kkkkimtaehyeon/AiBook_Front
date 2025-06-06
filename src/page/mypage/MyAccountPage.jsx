@@ -45,7 +45,7 @@ const MyAccountPage = () => {
             <Row className="mb-5">
                 <Col className={"d-flex align-items-center col-4"}>
                     <img
-                        src="/src/assets/image_loading.jpg"
+                        src="/assets/image_loading.jpg"
                         alt="profile_pic"
                         className="rounded-circle"
                         style={{height: "100px", width: "100px", objectFit: "cover"}}

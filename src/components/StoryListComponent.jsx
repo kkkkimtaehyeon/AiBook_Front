@@ -30,7 +30,7 @@ const StoryListComponent = ({storyList, clickHandler, handleTagParam}) => {
                     >
                         {/*<img*/}
                         {/*    className={"card-img-top"}*/}
-                        {/*    src={"/src/assets/image_loading.jpg"}*/}
+                        {/*    src={"/public/assets/image_loading.jpg"}*/}
                         {/*    alt={"..."} />*/}
                         <CardBody className={"text-start"}>
                             <CardTitle>{story.title}</CardTitle>

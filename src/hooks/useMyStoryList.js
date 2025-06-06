@@ -20,7 +20,7 @@ const useMyStoryList = () => {
 
         try {
             const params = searchParams.toString();
-            const response = await jwtAxios.get(`http://localhost:8080/api/stories/my?${params}`);
+            const response = await jwtAxios.get(`/api/stories/my?${params}`);
 
             if (response.status === 200) {
                 setStories(response.data.data.content);

@@ -3,13 +3,13 @@ import {Eye, Heart} from "react-bootstrap-icons";
 
 const MyStoryCard = ({
                          story,
-                         imageUrl = "/src/assets/image_loading.jpg",
+                         imageUrl = "/public/assets/image_loading.jpg",
                          onClick,
                          className = "mb-4"
                      }) => {
 
     const getImageUrl = (story) => {
-        return story.coverImageUrl ? story.coverImageUrl : "/src/assets/image_loading.jpg";
+        return story.coverImageUrl ? story.coverImageUrl : "/public/assets/image_loading.jpg";
     }
     return (
         <Row className={className}>

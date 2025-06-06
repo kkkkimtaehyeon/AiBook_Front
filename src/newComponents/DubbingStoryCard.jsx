@@ -2,11 +2,11 @@ import {Dot} from "react-bootstrap-icons";
 
 const DubbingStoryCard = ({
                               dubbingStory,
-                              image = "/src/assets/image_loading.jpg",
+                              image = "/public/assets/image_loading.jpg",
                               onClick
                           }) => {
     const getImageUrl = (story) => {
-        return story.coverImageUrl ? story.coverImageUrl : "/src/assets/image_loading.jpg";
+        return story.coverImageUrl ? story.coverImageUrl : "/public/assets/image_loading.jpg";
     }
 
     return (

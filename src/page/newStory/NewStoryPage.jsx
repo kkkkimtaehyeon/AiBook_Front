@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import useStoryStore from "../../store/useStoryStore.js";
 import {useNavigate} from "react-router-dom";
 import PageHeader from "../../newComponents/PageHeader.jsx";
-import jwtAxios from "../../common/JwtAxios.js";
+import {ai} from "../../common/CustomAxios.js";
 
 const NewStoryPage = () => {
 
@@ -13,9 +13,7 @@ const NewStoryPage = () => {
         storyId,
         clear, baseStory,
         currentPage, setCurrentPage,
-         setStoryContext,
-        selectedSentences, addSelectedSentence,
-        setCoverImageBase64
+        addSelectedSentence,
     } = useStoryStore();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -80,7 +78,7 @@ const NewStoryPage = () => {
         } else {
             data = {"selectedSentence": selectedContent}
         }
-        jwtAxios.post(`http://localhost:8000/v2/ai/stories/${storyId}/pages/${currentPage}/generate`, JSON.stringify(data))
+        ai.post(`/v2/ai/stories/${storyId}/pages/${currentPage}/generate`, JSON.stringify(data))
             .then(res => {
                 setIsLoading(false);
                 setContentOptions(res.data.sentenceOptions);
