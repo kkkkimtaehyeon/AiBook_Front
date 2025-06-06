@@ -14,7 +14,7 @@ const useMyDubbingList = () => {
 
     const fetchMyDubbedStoryList = () => {
         const params = searchParams.toString();
-        jwtAxios.get(`http://localhost:8080/api/stories/my/dubbed-stories?${params}`)
+        jwtAxios.get(`/api/stories/my/dubbed-stories?${params}`)
             .then(res => {
                 if (res.status === 200) {
                     setDubbingStories(res.data.data.content);

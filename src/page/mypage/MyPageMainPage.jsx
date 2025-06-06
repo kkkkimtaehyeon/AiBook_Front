@@ -32,7 +32,7 @@ const MyPageMainPage = () => {
     }
 
     const logout = async () => {
-        const response = await jwtAxios.get("http://localhost:8080/api/logout", {withCredentials: true});
+        const response = await jwtAxios.get("/api/logout", {withCredentials: true});
         try {
             if (response.data.success) {
                 localStorage.removeItem("access-token");

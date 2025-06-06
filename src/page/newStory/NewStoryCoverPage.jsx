@@ -43,7 +43,7 @@ const NewStoryCoverPage = () => {
             selectedSentences: selectedSentences,
             coverImageBase64: coverImageBase64
         }
-        jwtAxios.post("http://localhost:8080/api/stories", data)
+        jwtAxios.post("/api/stories", data)
             .then(res => {
                 if (res.status === 201) {
                     const savedStoryId = res.data.data;

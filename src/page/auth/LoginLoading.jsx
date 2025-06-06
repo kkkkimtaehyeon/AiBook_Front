@@ -3,13 +3,14 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react'
 import jwtAxios from "../../common/JwtAxios.js";
 import useLoginStore from "../../store/useLoginStore.js";
+import {api} from "../../common/CustomAxios.js";
 
 const LoginLoading = () => {
     const navigate = useNavigate();
     const {setLogin} = useLoginStore();
 
     const fetchMemberInfo = () => {
-        jwtAxios.get("http://localhost:8080/api/members/me")
+        jwtAxios.get("/api/members/me")
             .then(res => {
                 if (res.status === 200) {
                     const responseData = res.data.data;
@@ -29,9 +30,8 @@ const LoginLoading = () => {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
-        const url = 'http://localhost:8080/login/oauth2/code/kakao';
 
-        axios.get(`${url}?code=${code}`, {withCredentials: true})
+        api.get(`/login/oauth2/code/kakao?code=${code}`, {withCredentials: true})
             .then(res => {
                 if (res.status === 200) {
                     const responseBody = res.data;

@@ -14,7 +14,7 @@ const StoryReadPage = () => {
     const [isLiked, setIsLiked] = useState(false)
 
     useEffect(() => {
-        jwtAxios.get(`http://localhost:8080/api/stories/${storyId}`)
+        jwtAxios.get(`/api/stories/${storyId}`)
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res.data.data)
@@ -43,7 +43,7 @@ const StoryReadPage = () => {
         const newIsLiked = !isLiked
         setIsLiked(newIsLiked)
         jwtAxios
-            .post(`http://localhost:8080/api/stories/${storyId}/like`)
+            .post(`/api/stories/${storyId}/like`)
             .then((response) => {
                 if (!response.data.success) {
                     setIsLiked(isLiked)
@@ -62,7 +62,7 @@ const StoryReadPage = () => {
     }
 
     const deleteStory = () => {
-        jwtAxios.delete(`http://localhost:8080/api/stories/${storyId}`)
+        jwtAxios.delete(`/api/stories/${storyId}`)
             .then((response) => {
                 if (response.status === 204) {
                     alert("동화가 삭제되었습니다.")

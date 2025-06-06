@@ -1,7 +1,7 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import axios from "axios";
 import {Button, Card, Container, FormControl, FormLabel, InputGroup} from "react-bootstrap";
+import {api} from "../../common/CustomAxios.js";
 
 const SignUp = () => {
     const location = useLocation();
@@ -13,8 +13,7 @@ const SignUp = () => {
     const [birthDate, setBirthDate] = useState("");
 
     const signUp = async () => {
-        const url = "http://localhost:8080/api/members";
-        await axios.post(url, {
+        await api.post("/api/members", {
             oauthProvider: oauthProviderData.oauthProvider,
             oauthProviderMemberId: oauthProviderData.oauthProviderMemberId,
             email: email,

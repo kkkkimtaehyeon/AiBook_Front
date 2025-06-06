@@ -12,8 +12,7 @@ const useMyVoiceList = () => {
     }, []);
 
     function fetchMyVoices() {
-        const url = "http://localhost:8080/api/voices";
-        jwtAxios.get(url)
+        jwtAxios.get("/api/voices")
             .then((response) => {
                 if (response.status === 200) {
                     const voices = response.data.data;

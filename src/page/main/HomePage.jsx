@@ -1,7 +1,8 @@
 import {Link, useNavigate} from "react-router-dom";
 import {Carousel, Col, Container, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import {api} from "../../common/CustomAxios.js";
+
 
 const HomePage = () => {
     const [newStories, setNewStories] = useState([]);
@@ -15,7 +16,7 @@ const HomePage = () => {
     }, []);
 
     function fetchLatestStories() {
-        axios.get(`http://localhost:8080/api/stories?size=7&sortBy=createdAt&sortDir=desc`)
+        api.get(`/api/stories?size=7&sortBy=createdAt&sortDir=desc`)
             .then(res => {
                 if (res.status === 200) {
                     setNewStories(res.data.data.content);
@@ -28,10 +29,9 @@ const HomePage = () => {
     }
 
     function fetchHotStories() {
-        axios.get(`http://localhost:8080/api/stories?size=3&sortBy=likeCount&sortDir=desc`)
+        api.get(`/api/stories?size=3&sortBy=likeCount&sortDir=desc`)
             .then(res => {
                 if (res.status === 200) {
-                    console.log(res.data.data.content);
                     setHotStories(res.data.data.content);
                 }
             })

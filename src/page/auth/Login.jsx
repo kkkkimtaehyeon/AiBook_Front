@@ -1,13 +1,19 @@
 import {Card, CardBody, Container, Image} from "react-bootstrap";
 import PageHeader from "../../newComponents/PageHeader.jsx";
+import {useEffect} from "react";
 
 const Login = () => {
+    const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const kakaoOauthRedirectUri = import.meta.env.VITE_KAKAO_OAUTH_REDIRECT_URI;
+    const kakaoOauthLoginUrl = import.meta.env.VITE_KAKAO_OAUTH_LOGIN_URL;
+    const params = new URLSearchParams();
+
+    useEffect(() => {
+        console.log("카카오 클라이언트 ID:", kakaoClientId);
+    }, []);
 
     const goToKakaLoginPage = () => {
-        const kakaoClientId = '56fa105d4e79219dc0a0f22fca878e39';
-        const kakaoOauthRedirectUri = 'http://localhost:5173/login/oauth2/code/kakao';
-        const kakaoOauthLoginUrl = 'https://kauth.kakao.com/oauth/authorize';
-        const params = new URLSearchParams();
+
         params.append('client_id', kakaoClientId);
         params.append('redirect_uri', kakaoOauthRedirectUri);
         params.append('response_type', 'code');

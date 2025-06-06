@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {api} from "../common/CustomAxios.js";
 
 export const useStoryList = () => {
     const [storyList, setStoryList] = useState([]);
@@ -71,7 +71,6 @@ export const useStoryList = () => {
 
     // Fetch stories based on current state
     const fetchStories = () => {
-        const baseUrl = "http://localhost:8080/api/stories";
         const params = new URLSearchParams();
 
         params.set("page", currentPage);
@@ -83,7 +82,7 @@ export const useStoryList = () => {
             params.set("searchKey", searchKey);
         }
 
-        axios.get(`${baseUrl}?${params}`)
+        api.get(`?${params}`)
             .then(response => {
                 setStoryList(response.data.data.content);
                 setTotalPages(response.data.data.totalPages);

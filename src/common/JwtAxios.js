@@ -1,9 +1,11 @@
 import axios from "axios";
 import useLoginStore from "../store/useLoginStore.js";
+import CONSTANTS from "../constants/Constants.js";
+import {api} from "./CustomAxios.js";
 
 
 const jwtAxios = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: CONSTANTS.API_SERVER_BASE_URL,
     headers: {
         "Content-Type": "application/json"
     }
@@ -51,8 +53,8 @@ jwtAxios.interceptors.response.use(
 
             if (message === 'token expired') {
                 try {
-                    const res = await axios.post(
-                        "http://localhost:8080/api/token/reissue",
+                    const res = await api.post(
+                        "/api/token/reissue",
                         {},
                         {withCredentials: true}
                     );

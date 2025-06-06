@@ -7,6 +7,7 @@ import PageHeader from "../../newComponents/PageHeader.jsx";
 import "/src/css/dropdown.css"
 import axios from "axios";
 import AudioPlayerComponent from "../../components/AudioPlayerComponent.jsx";
+import {api} from "../../common/CustomAxios.js";
 
 const StoryDubbingReadPage = () => {
     const navigate = useNavigate()
@@ -16,7 +17,7 @@ const StoryDubbingReadPage = () => {
     const [currentPage, setCurrentPage] = useState({});
 
     const fetchStoryDubbingDetail = async () => {
-        await axios.get(`http://localhost:8080/api/stories/dubbed-stories/${storyDubbingId}`)
+        await api.get(`/api/stories/dubbed-stories/${storyDubbingId}`)
             .then((res) => {
                 if (res.status === 200) {
                     setStoryDetail(res.data.data);
@@ -43,7 +44,7 @@ const StoryDubbingReadPage = () => {
         }
     }
     const deleteStoryDubbing = () => {
-        jwtAxios.delete(`http://localhost:8080/api/dubbed-stories/${storyDubbingId}`)
+        jwtAxios.delete(`/api/dubbed-stories/${storyDubbingId}`)
             .then((response) => {
                 if (response.status === 204) {
                     alert("동화가 삭제되었습니다.")

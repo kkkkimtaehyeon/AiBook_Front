@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import {useEffect, useState} from "react";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {api} from "../common/CustomAxios.js";
 
 const useStoryDiscovery = () => {
     const [stories, setStories] = useState([]);
@@ -36,7 +36,7 @@ const useStoryDiscovery = () => {
 
     const fetchStories = () => {
         const params = searchParams.toString();
-        axios.get(`http://localhost:8080/api/stories?${params}`)
+        api.get(`/api/stories?${params}`)
             .then(res => {
                 if (res.status === 200) {
                     console.log(res.data.data);
@@ -50,7 +50,7 @@ const useStoryDiscovery = () => {
     };
 
     const fetchTags = () => {
-        axios.get("http://localhost:8080/api/tags")
+        api.get("/api/tags")
             .then(res => {
                 if (res.status === 200) {
                     setTags(res.data.data);
