@@ -11,7 +11,7 @@ const Footer2 = () => {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                width: "100%",
+                width: "105%", // TODO: 100퍼 넘는 이유?
                 backgroundColor: "white",
                 borderTop: "1px solid #ccc",
                 paddingTop: "10px",

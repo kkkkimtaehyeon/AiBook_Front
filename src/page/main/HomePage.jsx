@@ -102,12 +102,12 @@ const HomePage = () => {
             </Row>
 
             {/*최신*/}
-            <Row className={"mb-5"} style={{marginTop: "30px"}}>
+            <Row className={"mb-5"} >
                 <h1 className={"mb-5"} style={{textAlign: "left"}}>방금 업로드된 동화</h1>
-                <Row xs={2} sm={2} md={3} lg={4} xl={4}>
+                <Row xs={2} sm={2} md={3} lg={4} xl={4} className={"m-0"}>
                     {newStories.map((newStory) => (
                         <Col
-                            className={"text-start mb-4"}
+                            className={"mb-4"}
                             key={newStory.storyId}
                             onClick={() => goToStoryDetail(newStory.storyId)}
                         >

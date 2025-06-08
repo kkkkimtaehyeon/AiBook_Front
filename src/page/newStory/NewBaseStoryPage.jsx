@@ -2,15 +2,14 @@ import {useNavigate} from "react-router-dom";
 import {useRef, useState} from "react";
 import useStoryStore from "../../store/useStoryStore.js";
 import {v4 as uuidV4} from "uuid";
-import {Button, Col, Container, Form, FormLabel, Row} from "react-bootstrap";
-import {ArrowLeft, ThreeDots} from "react-bootstrap-icons";
+import {Button, Container, Form, FormLabel, Row} from "react-bootstrap";
 import PageHeader from "../../newComponents/PageHeader.jsx";
-
+import "/src/css/page/newBaseStory.css"
 const NewBaseStoryPage = () => {
     const navigate = useNavigate()
     const baseStoryInputRef = useRef(null)
     const [isHelperOn, setIsHelperOn] = useState(false)
-    const { setStoryId, setBaseStory } = useStoryStore()
+    const {setStoryId, setBaseStory} = useStoryStore()
 
     const createStory = () => {
         const baseStory = baseStoryInputRef.current.value
@@ -27,7 +26,7 @@ const NewBaseStoryPage = () => {
 
     return (
         <Container className={"py-4"}>
-            <PageHeader title={"새로운 동화"} />
+            <PageHeader title={"새로운 동화"}/>
 
             <Row className="justify-content-center">
                 <div className={"py-5"}>

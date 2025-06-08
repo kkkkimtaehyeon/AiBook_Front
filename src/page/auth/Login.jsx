@@ -33,7 +33,7 @@ const Login = () => {
                 <CardBody>
                     <Image
                         onClick={goToKakaLoginPage}
-                        src={"/kakao_login_medium_wide.png"}
+                        src={"/assets/kakao_login_medium_wide.png"}
                         alt="카카오 로그인"
                         style={{cursor: "pointer"}}
                     />

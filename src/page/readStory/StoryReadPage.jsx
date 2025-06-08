@@ -5,6 +5,7 @@ import {Eye, Heart, HeartFill, ThreeDots} from "react-bootstrap-icons"
 import jwtAxios from "../../common/JwtAxios.js";
 import PageHeader from "../../newComponents/PageHeader.jsx";
 import "/src/css/dropdown.css"
+import "/src/css/page/storyDetail.css"
 
 const StoryReadPage = () => {
     const navigate = useNavigate()
@@ -89,7 +90,7 @@ const StoryReadPage = () => {
     );
 
     return (
-        <Container className="py-4">
+        <Container className="py-4" style={{marginBottom: "100px"}}>
             <PageHeader
                 title={storyDetail.title}
                 rightIcon={DropdownIcon}
@@ -103,13 +104,12 @@ const StoryReadPage = () => {
                     </div>
                     <Button onClick={likeStory} className="like-button">
                         {isLiked ? <HeartFill size={18} className="heart-filled"/> : <Heart size={18}/>}
-                        {/*<span className="ms-2">{storyDetail.likeCount || 0}</span>*/}
                     </Button>
                 </div>
             </Row>
 
             <Row>
-                <Card className="story-content-card" style={{height: "450px"}}>
+                <Card className="story-content-card" style={{height: "330px"}}>
                     {pageNumber === 0 ? (
                         <div className="story-cover">
                             <h1 className="story-title">{storyDetail.title}</h1>
@@ -141,7 +141,7 @@ const StoryReadPage = () => {
                     <Col>
                         <div className="page-indicator">{pageNumber}/10</div>
                     </Col>
-                    <Col>
+                    <Col className={"justify-content-end d-flex"}>
                         {pageNumber < 10 && (
                             <Button onClick={goToNextPage} className="page-button next-button">
                                 <span>다음</span>

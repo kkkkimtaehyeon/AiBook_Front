@@ -1,12 +1,6 @@
 /* Modern Apple-inspired Index Page Styles */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-.main-container {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    max-width: 1200px;
-}
-
 /* Hero Section Styles */
 .hero-section {
     margin-bottom: 3rem;

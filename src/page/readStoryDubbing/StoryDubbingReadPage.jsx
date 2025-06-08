@@ -76,7 +76,7 @@ const StoryDubbingReadPage = () => {
             />
 
             <Row>
-                <Card className="story-content-card" style={{height: "450px"}}>
+                <Card className="story-content-card" style={{height: "330px"}}>
                     {pageNumber === 0 ? (
                         <div className="story-cover">
                             <h1 className="story-title">{storyDetail.title}</h1>

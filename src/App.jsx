@@ -7,7 +7,6 @@ import {SignUp} from "./page/auth/SignUp.jsx";
 import "./css/root.css"
 import "/src/css/global.css"
 import "bootstrap/dist/css/bootstrap.min.css";
-import AuthenticatedRoute from "./AuthenticatedRoute.jsx";
 import Footer2 from "./layout/Footer2.jsx";
 import HomePage from "./page/main/HomePage.jsx";
 import TaleDiscoveryPage from "./page/main/TaleDiscoveryPage.jsx";
@@ -48,7 +47,7 @@ function App() {
                 {/*동화*/}
                 <Route path="/story/new" element={<NewBaseStoryPage/>}/>
                 <Route path="/stories/:storyId" element={<StoryReadPage/>}/>
-                <Route path="/stories/:storyId/new" element={<AuthenticatedRoute component={<NewStoryPage/>}/>}/>
+                <Route path="/stories/:storyId/new" element={<NewStoryPage/>}/>
                 <Route path="/stories/:storyId/new/setting" element={<NewStorySettingPage/>}/>
                 <Route path="/stories/:storyId/new/cover" element={<NewStoryCoverPage/>}/>
                 {/*더빙*/}
@@ -59,7 +58,6 @@ function App() {
                 <Route path="/my/voices/register" element={<VoiceRegisterPage/>}/>
 
             </Routes>
-            {/*</Layout>*/}
             <Footer2/>
         </BrowserRouter>
     );
