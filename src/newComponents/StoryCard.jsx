@@ -3,7 +3,7 @@ import {Eye, Heart} from "react-bootstrap-icons";
 const StoryCard = ({ story, onStoryClick, onTagClick }) => {
 
     const getImageUrl = (story) => {
-        return story.coverImageUrl ? story.coverImageUrl : "/public/assets/image_loading.jpg";
+        return story.coverImageUrl ? story.coverImageUrl : "/assets/image_loading.jpg";
     }
     return (
         <div

@@ -7,7 +7,7 @@ import {api} from "../../common/CustomAxios.js";
 const HomePage = () => {
     const [newStories, setNewStories] = useState([]);
     const [hotStories, setHotStories] = useState([]);
-    const imageLoadingUrl = "/public/assets/image_loading.jpg";
+    const imageLoadingUrl = "/assets/image_loading.jpg";
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 const VoiceCard = ({
                        voice,
-                       image = "/public/assets/image_loading.jpg",
+                       image = "/assets/image_loading.jpg",
                        onClick
                    }) => {
 
