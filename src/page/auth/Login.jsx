@@ -9,7 +9,6 @@ const Login = () => {
     const params = new URLSearchParams();
 
     useEffect(() => {
-        console.log("카카오 클라이언트 ID:", kakaoClientId);
     }, []);
 
     const goToKakaLoginPage = () => {

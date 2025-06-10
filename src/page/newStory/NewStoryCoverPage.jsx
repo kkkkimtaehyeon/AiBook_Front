@@ -3,8 +3,9 @@ import PageHeader from "../../newComponents/PageHeader.jsx";
 import {useEffect, useState} from "react";
 import {ArrowRepeat} from "react-bootstrap-icons";
 import useStoryStore from "../../store/useStoryStore.js";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import jwtAxios from "../../common/JwtAxios.js";
+import {ai} from "../../common/CustomAxios.js";
 
 const NewStoryCoverPage = () => {
     const MAX_REGENERATE_COUNT = 1; // 최대 재생성 횟수
@@ -12,18 +13,12 @@ const NewStoryCoverPage = () => {
     const [regenerateCount, setRegenerateCount] = useState(MAX_REGENERATE_COUNT);
     const {coverImageBase64, baseStory, selectedSentences} = useStoryStore();
     const navigate = useNavigate();
-
+    const [regeneratedCoverImageBase64, setRegeneratedCoverImageBase64] = useState("");
+    const {storyId} = useParams();
     const location = useLocation();
-    // const title = location.state.title;
-    // const isPublic = location.state.isPublic;
-    // const tagIds = location.state.tagIds;
-
-    const title = 'title';
-    const isPublic = true;
-    const tagIds = [1,2];
-
-    const cover = "/assets/img.png"
-
+    const title = location.state.title;
+    const isPublic = location.state.isPublic;
+    const tagIds = location.state.tagIds;
 
     useEffect(() => {
         console.log({coverImageBase64});
@@ -35,13 +30,15 @@ const NewStoryCoverPage = () => {
     }, [coverImageBase64]);
 
     const createStory = () => {
+        const coverImage = regeneratedCoverImageBase64 === "" ? coverImageBase64 : regeneratedCoverImageBase64;
+    
         const data = {
             title: title,
             isPublic: isPublic,
             tagIds: tagIds,
             baseStory: baseStory,
             selectedSentences: selectedSentences,
-            coverImageBase64: coverImageBase64
+            coverImageBase64: coverImage
         }
         jwtAxios.post("/stories", data)
             .then(res => {
@@ -60,7 +57,19 @@ const NewStoryCoverPage = () => {
             alert("이미지를 더 이상 재생성할 수 없습니다.");
             return;
         }
-        setRegenerateCount(regenerateCount - 1);
+        ai.post(`/v3/stories/${storyId}/image-generation`)
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    console.log(res);
+                    setRegeneratedCoverImageBase64(res.data.base64Image);
+                    setRegenerateCount(regenerateCount - 1);
+                }
+
+            })
+            .catch(err => {
+                console.log("Error regenerating image:", err);
+            })
     }
 
     return (
@@ -69,10 +78,10 @@ const NewStoryCoverPage = () => {
             <Row className={"m-2 mb-4"}>
                 <Card
                     className="w-100 rounded-5 justify-content-center overflow-hidden p-0"
-                    style={{ height: '450px' }}
+                    style={{height: '450px'}}
                 >
                     <img
-                        src={cover}
+                        src={"data:image/jpeg;base64," + coverImageBase64}
                         alt="img"
                         className="h-100 w-100"
                         style={{

@@ -7,6 +7,9 @@ const api = axios.create({
 
 const ai = axios.create({
     baseURL: CONSTANTS.AI_SERVER_BASE_URL,
+    headers: {
+        "Content-Type": "application/json"
+    }
 });
 
 export {api, ai};
