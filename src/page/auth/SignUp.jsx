@@ -13,7 +13,7 @@ const SignUp = () => {
     const [birthDate, setBirthDate] = useState("");
 
     const signUp = async () => {
-        await api.post("/api/members", {
+        await api.post("/members", {
             oauthProvider: oauthProviderData.oauthProvider,
             oauthProviderMemberId: oauthProviderData.oauthProviderMemberId,
             email: email,

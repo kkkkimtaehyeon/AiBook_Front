@@ -16,7 +16,7 @@ const HomePage = () => {
     }, []);
 
     function fetchLatestStories() {
-        api.get(`/api/stories?size=7&sortBy=createdAt&sortDir=desc`)
+        api.get(`/stories?size=7&sortBy=createdAt&sortDir=desc`)
             .then(res => {
                 if (res.status === 200) {
                     setNewStories(res.data.data.content);
@@ -29,7 +29,7 @@ const HomePage = () => {
     }
 
     function fetchHotStories() {
-        api.get(`/api/stories?size=3&sortBy=likeCount&sortDir=desc`)
+        api.get(`/stories?size=3&sortBy=likeCount&sortDir=desc`)
             .then(res => {
                 if (res.status === 200) {
                     setHotStories(res.data.data.content);

@@ -17,7 +17,7 @@ const StoryDubbingReadPage = () => {
     const [currentPage, setCurrentPage] = useState({});
 
     const fetchStoryDubbingDetail = async () => {
-        await api.get(`/api/stories/dubbed-stories/${storyDubbingId}`)
+        await api.get(`/stories/dubbed-stories/${storyDubbingId}`)
             .then((res) => {
                 if (res.status === 200) {
                     setStoryDetail(res.data.data);
@@ -44,7 +44,7 @@ const StoryDubbingReadPage = () => {
         }
     }
     const deleteStoryDubbing = () => {
-        jwtAxios.delete(`/api/dubbed-stories/${storyDubbingId}`)
+        jwtAxios.delete(`/dubbed-stories/${storyDubbingId}`)
             .then((response) => {
                 if (response.status === 204) {
                     alert("동화가 삭제되었습니다.")

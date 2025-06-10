@@ -37,7 +37,7 @@ const NewStoryPage = () => {
     }, [currentPage]);
 
     // const requestCoverImageGeneration = () => {
-    //     axios.post(`http://localhost:8000/v1/api/image-generation`, {contents: selectedSentences})
+    //     axios.post(`http://localhost:8000/v1/image-generation`, {contents: selectedSentences})
     //         .then(res => {
     //             if (res.status === 200) {
     //                 console.log("이미지가 성공적으로 생성 되었습니다.");
@@ -78,7 +78,7 @@ const NewStoryPage = () => {
         } else {
             data = {"selectedSentence": selectedContent}
         }
-        ai.post(`/v2/ai/stories/${storyId}/pages/${currentPage}/generate`, JSON.stringify(data))
+        ai.post(`/v2/stories/${storyId}/pages/${currentPage}/generate`, JSON.stringify(data))
             .then(res => {
                 setIsLoading(false);
                 setContentOptions(res.data.sentenceOptions);

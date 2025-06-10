@@ -54,7 +54,7 @@ jwtAxios.interceptors.response.use(
             if (message === 'token expired') {
                 try {
                     const res = await api.post(
-                        "/api/token/reissue",
+                        "/token/reissue",
                         {},
                         {withCredentials: true}
                     );

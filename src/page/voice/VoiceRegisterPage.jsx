@@ -26,7 +26,7 @@ const VoiceRegisterPage = () => {
 
         // await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기 (로딩 시뮬레이션)
 
-        JwtAxios.post('/api/voices', formData, {
+        JwtAxios.post('/voices', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

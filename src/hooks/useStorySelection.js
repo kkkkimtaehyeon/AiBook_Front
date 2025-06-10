@@ -60,7 +60,7 @@
 //         try {
 //             // 실제 API 호출 시 사용할 코드
 //             if (process.env.NODE_ENV === 'production') {
-//                 const endpoint = activeTab === 'all' ? '/api/stories' : '/api/stories/my';
+//                 const endpoint = activeTab === 'all' ? '/stories' : '/stories/my';
 //                 const response = await api.get(`${endpoint}`);
 //
 //                 if (response.status === 200) {

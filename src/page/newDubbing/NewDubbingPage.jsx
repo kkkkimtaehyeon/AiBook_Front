@@ -63,7 +63,7 @@ const NewDubbingPage = () => {
     const handleRequestDubbing = () => {
         console.log('Selected Story:', selectedStory);
         console.log('Selected Voice:', selectedVoice);
-        jwtAxios.post('/api/dubbed-stories', {
+        jwtAxios.post('/dubbed-stories', {
             storyId: selectedStory.storyId,
             voiceId: selectedVoice.id
         }).then(res => {

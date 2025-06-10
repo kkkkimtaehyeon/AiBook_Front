@@ -20,7 +20,7 @@ const NewStorySettingPage = () => {
     }, []);
 
     const requestCoverImageGeneration = () => {
-        ai.post(`/v3/ai/stories/${storyId}/image-generation`, {contents: selectedSentences})
+        ai.post(`/v3/stories/${storyId}/image-generation`, {contents: selectedSentences})
             .then(res => {
                 if (res.status === 200) {
                     const base64Image = res.data.base64Image;
@@ -66,7 +66,7 @@ const NewStorySettingPage = () => {
 
 
     const fetchTags = () => {
-        api.get("/api/tags")
+        api.get("/tags")
             .then(res => {
                 if (res.status === 200) {
                     setTags(res.data.data);

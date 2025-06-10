@@ -10,7 +10,7 @@ const LoginLoading = () => {
     const {setLogin} = useLoginStore();
 
     const fetchMemberInfo = () => {
-        jwtAxios.get("/api/members/me")
+        jwtAxios.get("/members/me")
             .then(res => {
                 if (res.status === 200) {
                     const responseData = res.data.data;

@@ -17,7 +17,7 @@ const VoiceListComponent = () => {
     const getVoices = () => {
         setIsLoading(true)
         jwtAxios
-            .get("/api/voices")
+            .get("/voices")
             .then((response) => {
                 if (response.data.success) {
                     setVoices(response.data.data)

@@ -15,7 +15,7 @@ const MyAccountPage = () => {
     }, []);
 
     const fetchMemberInfo = () => {
-        jwtAxios.get("/api/members/me")
+        jwtAxios.get("/members/me")
             .then(res => {
                 console.log(res.data.data);
                 if (res.status === 200) {

@@ -36,7 +36,7 @@ const useStoryDiscovery = () => {
 
     const fetchStories = () => {
         const params = searchParams.toString();
-        api.get(`/api/stories?${params}`)
+        api.get(`/stories?${params}`)
             .then(res => {
                 if (res.status === 200) {
                     console.log(res.data.data);
@@ -50,7 +50,7 @@ const useStoryDiscovery = () => {
     };
 
     const fetchTags = () => {
-        api.get("/api/tags")
+        api.get("/tags")
             .then(res => {
                 if (res.status === 200) {
                     setTags(res.data.data);
