@@ -27,9 +27,8 @@ const SignUp = () => {
                     navigate("/login");
                 }
             })
-            .catch(error => {
-                alert("회원가입 중 오류가 발생했습니다." + error);
-                console.error("회원가입 실패:", error);
+            .catch(err => {
+                alert("회원가입 중 오류가 발생했습니다.\n" + err.response.data.message);
             });
     };
 

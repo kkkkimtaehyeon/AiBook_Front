@@ -36,14 +36,14 @@ const StoryCard = ({ story, onStoryClick, onTagClick }) => {
                     </div>
                 )}
             </div>
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0" style={{width: '120px', height: '120px'}}>
                 <img
                     src={getImageUrl(story)}
                     alt={story.title}
-                    className="rounded-5"
-                    style={{ width: '120px', height: '120px', objectFit: 'cover' }}
+                    style={{width: '100%', height: '100%', objectFit: 'fill', borderRadius: '10px'}}
                 />
             </div>
+
         </div>
     );
 };

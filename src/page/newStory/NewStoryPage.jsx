@@ -20,10 +20,6 @@ const NewStoryPage = () => {
     const [exSentence, setExSentence] = useState("");
 
     useEffect(() => {
-        console.log(selectedContent);
-    }, [selectedContent]);
-
-    useEffect(() => {
         clear();
     }, []);
 
@@ -81,7 +77,7 @@ const NewStoryPage = () => {
         ai.post(`/v2/stories/${storyId}/pages/${currentPage}/generate`, JSON.stringify(data))
             .then(res => {
                 setIsLoading(false);
-                setContentOptions(res.data.sentenceOptions);
+                setContentOptions(res.data);
                 setSelectedContent(""); // 다음 페이지를 위해 선택 초기화
             })
             .catch(err => {
@@ -155,3 +151,4 @@ const NewStoryPage = () => {
 };
 
 export default NewStoryPage;
+
