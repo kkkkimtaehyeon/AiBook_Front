@@ -77,7 +77,7 @@ const NewStoryCoverPage = () => {
     }
 
     return (
-        <Container className={"py-4"}>
+        <Container className={"py-4"} style={{marginBottom: "100px"}}>
             <PageHeader title={"새로운 동화"}/>
             <Row className={"m-2 mb-4"}>
                 <Card

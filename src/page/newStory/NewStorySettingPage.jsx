@@ -96,7 +96,7 @@ const NewStorySettingPage = () => {
     }
 
     return (
-        <Container className="py-4">
+        <Container className="py-4" style={{marginBottom: "100px"}}>
             <PageHeader title={"새로운 동화"}/>
 
             {/* 제목 입력창 */}

@@ -25,7 +25,7 @@ const NewBaseStoryPage = () => {
     }
 
     return (
-        <Container className={"py-4"}>
+        <Container className={"py-4"} style={{marginBottom: "100px"}}>
             <PageHeader title={"새로운 동화"}/>
 
             <Row className="justify-content-center">
