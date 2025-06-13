@@ -22,17 +22,17 @@ const Login = () => {
 
     return (
         <Container className={"py-4"}>
-            <PageHeader title={"로그인"} />
+            <PageHeader title={"로그인"}/>
             <Card>
                 <Image
-                    src={"/assets/aibook_logo.png"}
-                    style={{ width: "100px", height: "auto", margin: "0 auto", display: "block" }}>
+                    src={"/assets/aibook_logo.webp"}
+                    style={{width: "100px", height: "auto", margin: "0 auto", display: "block"}}>
                 </Image>
                 <h2>아이북에 로그인하기</h2>
-                <CardBody>
+                <CardBody className={"d-flex justify-content-center"}>
                     <Image
                         onClick={goToKakaLoginPage}
-                        src={"/assets/kakao_login_medium_wide.png"}
+                        src={"/assets/kakao_login_medium_wide.webp"}
                         alt="카카오 로그인"
                         style={{cursor: "pointer"}}
                     />
