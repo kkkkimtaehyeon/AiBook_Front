@@ -31,7 +31,7 @@ const NewStoryCoverPage = () => {
 
     const createStory = () => {
         const coverImage = regeneratedCoverImageBase64 === "" ? coverImageBase64 : regeneratedCoverImageBase64;
-    
+
         const data = {
             title: title,
             isPublic: isPublic,
@@ -57,19 +57,23 @@ const NewStoryCoverPage = () => {
             alert("이미지를 더 이상 재생성할 수 없습니다.");
             return;
         }
+        setRegenerateCount(regenerateCount - 1);
+
         ai.post(`/v3/stories/${storyId}/image-generation`)
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
-                    console.log(res);
                     setRegeneratedCoverImageBase64(res.data.base64Image);
-                    setRegenerateCount(regenerateCount - 1);
                 }
 
             })
             .catch(err => {
                 console.log("Error regenerating image:", err);
             })
+    }
+
+    // 현재 표시할 이미지를 결정하는 함수
+    const getCurrentImage = () => {
+        return regeneratedCoverImageBase64 === "" ? coverImageBase64 : regeneratedCoverImageBase64;
     }
 
     return (
@@ -81,7 +85,7 @@ const NewStoryCoverPage = () => {
                     style={{height: '450px'}}
                 >
                     <img
-                        src={"data:image/jpeg;base64," + coverImageBase64}
+                        src={"data:image/jpeg;base64," + getCurrentImage()}
                         alt="img"
                         className="h-100 w-100"
                         style={{
@@ -91,27 +95,6 @@ const NewStoryCoverPage = () => {
                     />
                 </Card>
             </Row>
-            {/*<Row className={"m-2 mb-4"}>*/}
-
-            {/*    <Card*/}
-            {/*        className="w-100 rounded-5 justify-content-center overflow-hidden"*/}
-            {/*        style={{height: '300px'}}*/}
-            {/*    > {isLoading ? (*/}
-            {/*        <div className={"justify-content-center"}>*/}
-            {/*            <div className="spinner-border text-primary" role="status">*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-
-
-            {/*    ) : (*/}
-            {/*        <img*/}
-            {/*            src={"data:image/jpeg;base64," + coverImageBase64}*/}
-            {/*            alt="img"*/}
-            {/*            className="d-block rounded-5 h-100 w-100 object-fit-cover"*/}
-            {/*        />*/}
-            {/*    )}*/}
-            {/*    </Card>*/}
-            {/*</Row>*/}
 
             <Row>
                 <ArrowRepeat

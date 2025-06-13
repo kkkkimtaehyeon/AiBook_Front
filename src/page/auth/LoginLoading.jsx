@@ -1,9 +1,9 @@
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react'
 import jwtAxios from "../../common/JwtAxios.js";
 import useLoginStore from "../../store/useLoginStore.js";
 import {api} from "../../common/CustomAxios.js";
+import {Container, Spinner} from "react-bootstrap";
 
 const LoginLoading = () => {
     const navigate = useNavigate();
@@ -40,28 +40,35 @@ const LoginLoading = () => {
                         const oauthProviderMemberId = responseBody.data;
                         alert('최초가입이 필요합니다.');
                         navigate('/signup', {state: {oauthProvider: oauthProviderMemberId}});
-                    }
-                    else { // 회원가입 된 유저는 로그인 처리
+                    } else { // 회원가입 된 유저는 로그인 처리
                         const accessToken = responseBody.data;
                         localStorage.setItem('access-token', accessToken);
                         fetchMemberInfo();
                         navigate('/home');
                     }
                 } else {
-                    console.log(res);
-                    alert("로그인 중 오류가 발생했습니다.")
+                    alert("로그인 중 오류가 발생했습니다. 잠시 후에 다시 시도해주세요.")
                     navigate('/login');
                 }
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
+                alert("로그인 중 오류가 발생했습니다. 잠시 후에 다시 시도해주세요.")
+                navigate('/login');
             });
     }, []);
 
     return (
-        <>
-            <h1>로그인 중입니다.</h1>
-        </>
+        <Container
+            className="d-flex justify-content-center align-items-center"
+            style={{ minHeight: '100vh' }}
+        >
+            <div className="d-flex align-items-center gap-3">
+                <Spinner />
+                <h1>로그인 중입니다.</h1>
+            </div>
+        </Container>
+
     )
 }
 
