@@ -61,8 +61,6 @@ const NewDubbingPage = () => {
     };
 
     const handleRequestDubbing = () => {
-        console.log('Selected Story:', selectedStory);
-        console.log('Selected Voice:', selectedVoice);
         jwtAxios.post('/dubbed-stories', {
             storyId: selectedStory.storyId,
             voiceId: selectedVoice.id
@@ -216,7 +214,7 @@ const NewDubbingPage = () => {
 
     // Voice Selection UI
     const renderVoiceSelection = () => (
-        <Container className={"py-4"}>
+        <Container className={"py-4 container"}>
             <PageHeader title={"더빙할 목소리 선택"}/>
 
             <Row className="mb-4 bg-light border" style={{height: 50}}>

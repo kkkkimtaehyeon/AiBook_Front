@@ -49,7 +49,7 @@ const VoiceRegisterPage = () => {
     };
 
     return (
-        <Container className={"py-4"}>
+        <Container className={"py-4 container"}>
             <PageHeader title={"목소리 등록"}/>
 
             <ul className={"mb-4"}>
