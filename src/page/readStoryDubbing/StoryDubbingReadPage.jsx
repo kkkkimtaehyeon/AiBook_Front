@@ -5,7 +5,6 @@ import {ThreeDots} from "react-bootstrap-icons"
 import jwtAxios from "../../common/JwtAxios.js";
 import PageHeader from "../../newComponents/PageHeader.jsx";
 import "/src/css/dropdown.css"
-import axios from "axios";
 import AudioPlayerComponent from "../../components/AudioPlayerComponent.jsx";
 import {api} from "../../common/CustomAxios.js";
 
@@ -30,19 +29,27 @@ const StoryDubbingReadPage = () => {
         fetchStoryDubbingDetail();
     }, []);
 
-    const goToNextPage = () => {
-        if (pageNumber < 10) {
-            setPageNumber(pageNumber + 1)
-            setCurrentPage(storyDetail.pages[pageNumber]);
+
+    useEffect(() => {
+        if (pageNumber > 0 && storyDetail.pages) {
+            setCurrentPage(storyDetail.pages[pageNumber - 1]);
         }
-    }
+    }, [pageNumber, storyDetail.pages]);
 
     const goBackToPage = () => {
         if (pageNumber > 0) {
-            setPageNumber(pageNumber - 1)
-            setCurrentPage(storyDetail.pages[pageNumber]);
+            setPageNumber(pageNumber - 1);
+            // setCurrentPage 제거 - useEffect에서 처리
         }
     }
+
+    const goToNextPage = () => {
+        if (pageNumber < 10) {
+            setPageNumber(pageNumber + 1);
+            // setCurrentPage 제거 - useEffect에서 처리
+        }
+    }
+
     const deleteStoryDubbing = () => {
         jwtAxios.delete(`/dubbed-stories/${storyDubbingId}`)
             .then((response) => {
@@ -112,7 +119,7 @@ const StoryDubbingReadPage = () => {
                     <Col>
                         <div className="page-indicator">{pageNumber}/10</div>
                     </Col>
-                    <Col>
+                    <Col className={"justify-content-end d-flex"}>
                         {pageNumber < 10 && (
                             <Button onClick={goToNextPage} className="page-button next-button">
                                 <span>다음</span>
