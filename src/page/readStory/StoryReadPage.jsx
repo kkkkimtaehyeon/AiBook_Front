@@ -45,10 +45,9 @@ const StoryReadPage = () => {
         setIsLiked(newIsLiked)
         jwtAxios
             .post(`/stories/${storyId}/like`)
-            .then((response) => {
-                if (!response.data.success) {
-                    setIsLiked(isLiked)
-                    alert("좋아요가 실패했습니다.")
+            .then((res) => {
+                if (res.status === 200) {
+
                 }
             })
             .catch((error) => {
